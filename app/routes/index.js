@@ -34,7 +34,7 @@ module.exports = (app, passport) => {
         }));
 
 	app.get('/in', (req, res) => {
-		res.json(req);
+		res.json(req.body);
 	});
 	
 	//Display all pins in collection
