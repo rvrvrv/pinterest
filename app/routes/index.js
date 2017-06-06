@@ -28,11 +28,15 @@ module.exports = (app, passport) => {
 	
     app.get('/auth/twitter/callback',
         passport.authenticate('twitter', {
-            successRedirect : '/test',
+            successRedirect : '/in',
             failureRedirect : '/',
             failureFlash: true
         }));
 
+	app.get('/in', (req, res) => {
+		res.json(req);
+	});
+	
 	//Display all pins in collection
 	app.route('/api/allpins/')
 		.get((req, res) => clickHandler.showAllpins(req, res));

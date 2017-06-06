@@ -25,7 +25,6 @@ module.exports = function(passport) {
 
         },
         function(token, tokenSecret, profile, done) {
-            console.log(profile);
             process.nextTick(() => {
                 User.findOne({ 'id': profile.id }, (err, user) => {
                     if (err) return done(err);
