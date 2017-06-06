@@ -27,9 +27,10 @@ module.exports = (app, passport) => {
 	app.get('/auth/twitter', passport.authenticate('twitter'));
 	
     app.get('/auth/twitter/callback',
-        passport.authenticate('twitter', (req, res) => {
-        	console.log(req);
-        	res.redirect('/');
+        passport.authenticate('twitter', {
+            successRedirect : '/test',
+            failureRedirect : '/',
+            failureFlash: true
         }));
 
 	//Display all pins in collection
