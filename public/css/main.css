@@ -1,0 +1,141 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    background: #fffafa;
+    color: #003;
+}
+
+h4 {
+    font-size: 2rem;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.btn {
+    background: #880e4f;
+}
+
+.btn:focus, .btn:hover {
+    background: #ad1457;
+}
+
+.waves-effect.waves-blue .waves-ripple {
+    background-color: #1da1f2;
+}
+
+.error {
+    background: #a00;
+}
+
+.navbar-fixed {
+    user-select: none;
+}
+
+#userInfo a {
+    background-color: transparent;
+}
+
+#userInfo li {
+    margin-right: 10px;
+    font-size: 2em;
+}
+
+#userInfo img {
+    border-radius: 5px;
+    margin-top: 10%;
+}
+
+#userDropdown a {
+    color: #880e4f;
+}
+
+#userProfile {
+    color: #000;
+}
+
+.modal-pin {
+    max-width: 500px !important;
+}
+
+.validate {
+    font-size: 1.3em !important;
+}
+
+.valid {
+    border-bottom: 1px solid #880e4f;
+    box-shadow: 0 1px 0 0 #c51162;
+}
+
+.input-field input {
+    margin-bottom: 0 !important;
+}
+
+.input-field input[type=text]:focus+label {
+    color: #400;
+}
+
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #400;
+    box-shadow: 0 1px 0 0 #400;
+}
+
+.input-field .prefix.active {
+    color: #0277bd;
+}
+
+.input-field label {
+    font-size: 1.1em !important;
+    margin-top: 7px;
+}
+
+.modal-footer {
+    margin-top: -100px !important;
+}
+
+
+/* Animation */
+
+.animated {
+    animation-duration: .5s;
+    animation-fill-mode: both;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeOut {
+    animation-name: fadeOut;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

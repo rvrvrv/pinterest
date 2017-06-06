@@ -1,0 +1,25 @@
+{
+  "name": "rv-pinterest",
+  "version": "0.0.1",
+  "description": "Pinterest-esque Project for FreeCodeCamp",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rvrvrv/pinterest"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "rvrvrv",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "client-sessions": "^0.8.0",
+    "dotenv": "^1.2.0",
+    "express": "^4.12.4",
+    "mongoose": "^4.1.0",
+    "passport": "^0.3.2",
+    "passport-twitter": "^1.0.4",
+    "serve-favicon": "^2.4.2"
+  }
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Almost Pinterest</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <div class="navbar-fixed">
+    <ul id="userDropdown" class="dropdown-content">
+    </ul>
+    <nav>
+      <div class="nav-wrapper pink darken-4">
+        <ul class="left">
+          <li><a class="logout-buttons hide-on-large-only hidden" id="logoutLink">Log Out</a></li>
+        </ul>
+        <a class="brand-logo center">Almost Pinterest</a>
+        <ul class="right valign-wrapper" id="userInfo"></ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="progress pink accent-1">
+    <div class="indeterminate pink"></div>
+  </div>
+
+  <div class="login-btn center animated">
+    <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into Twitter for full access">
+        <a class="btn waves-effect waves-blue" id="loginBtn" href="/auth/twitter">
+          Login via Twitter&nbsp;&nbsp;<i class="fa fa-2x fa-twitter"></i>
+        </a>
+    </span>
+  </div>
+  <div class="modals"></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+<script src="https://use.fontawesome.com/21a9ccba03.js"></script>
+<script src="common/ajax-functions.js"></script>
+<script src="common/login.js"></script>
+<script src="common/main.js"></script>
+<script src="controllers/indexController.client.js"></script>
+<script src="controllers/likeController.client.js"></script>
+
+</html>
