@@ -9,6 +9,10 @@
 </head>
 
 <body>
+  <!--Ensure HTTPS-->
+  <script>
+    if (window.location.protocol != 'https:') location.href = location.href.replace('http', 'https');
+  </script>
   <div class="navbar-fixed">
     <ul id="userDropdown" class="dropdown-content">
     </ul>
