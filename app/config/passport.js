@@ -1,17 +1,19 @@
 'use strict';
 
-var TwitterStrategy = require('passport-twitter').Strategy;
-var User = require('../models/users');
-var configAuth = require('./auth');
+const TwitterStrategy = require('passport-twitter').Strategy;
+const mongoose = require('mongoose');
+const User = require('../models/users');
+const configAuth = require('./auth');
 
 module.exports = function(passport) {
 
     passport.serializeUser((user, done) => {
-        done(null, user.id);
+        done(null, user._id);
     });
 
     passport.deserializeUser((id, done) => {
-        User.findById({ _id: id }, (err, user) => {
+        let userId = mongoose.Schema.Types.ObjectId(id);
+        User.findById(userId, (err, user) => {
             done(err, user);
         });
     });
