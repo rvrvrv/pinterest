@@ -23,17 +23,16 @@ module.exports = function(passport) {
 
         },
         function(token, tokenSecret, profile, done) {
+            console.log(profile);
             process.nextTick(() => {
-                User.findOne({ 'twitter.id': profile.id }, (err, user) => {
+                User.findOne({ 'id': profile.id }, (err, user) => {
                     if (err) return done(err);
                     if (user) return done(null, user);
                     else {
                         let newUser = new User();
-
-                        newUser.twitter.id = profile.id;
-                        newUser.twitter.token = token;
-                        newUser.twitter.username = profile.username;
-                        newUser.twitter.displayName = profile.displayName;
+                        newUser.id = profile.id;
+                        newUser.username = profile.username;
+                        newUser.displayName = profile.displayName;
 
                         newUser.save(err => {
                             if (err) throw err;
