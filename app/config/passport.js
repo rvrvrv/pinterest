@@ -31,8 +31,8 @@ module.exports = function(passport) {
                     else {
                         let newUser = new User();
                         newUser.id = profile.id;
-                        newUser.username = profile.username;
-                        newUser.displayName = profile.displayName;
+                        newUser.name = profile.displayName;
+                        newUser.img = profile.photos[0].value;
 
                         newUser.save(err => {
                             if (err) throw err;
