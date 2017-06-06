@@ -28,7 +28,8 @@ module.exports = (app, passport) => {
 	
     app.get('/auth/twitter/callback',
         passport.authenticate('twitter', (req, res) => {
-        	res.json(req);
+        	console.log(req);
+        	res.redirect('/');
         }));
 
 	//Display all pins in collection
