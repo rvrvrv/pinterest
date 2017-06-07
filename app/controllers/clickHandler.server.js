@@ -71,17 +71,15 @@ function ClickHandler() {
 					});
 			});
 	};
-	//**CALLED UPON LOGIN
-	//Create user (or load existing user)
-	this.createUser = function(req, res) {
+	//Load user data
+	this.loadUser = function(req, res) {
+		console.log(req);
 		Users
 			.findOne({
 				'id': req.body.id
 			}, {
 				'_id': 0,
 				'__v': 0,
-				'incomingRequests._id': 0,
-				'outgoingRequests._id': 0
 			})
 			.exec((err, result) => {
 				if (err) throw err;

@@ -4,7 +4,8 @@
 
 $(document).ready(() => {
     //Automatically show all pins on index page
-    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', getAllPins));
+    //ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', getAllPins));
+    progress('hide');
 });
 
 

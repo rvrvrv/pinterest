@@ -8,7 +8,7 @@ const configAuth = require('./auth');
 module.exports = function(passport) {
 
     passport.serializeUser((user, done) => {
-        done(null, user._id);
+        done(null, user.id);
     });
 
     passport.deserializeUser((id, done) => {
@@ -22,7 +22,6 @@ module.exports = function(passport) {
             consumerKey: configAuth.twitterAuth.consumerKey,
             consumerSecret: configAuth.twitterAuth.consumerSecret,
             callbackURL: configAuth.twitterAuth.callbackURL
-
         },
         function(token, tokenSecret, profile, done) {
             process.nextTick(() => {
@@ -34,7 +33,6 @@ module.exports = function(passport) {
                         newUser.id = profile.id;
                         newUser.name = profile.displayName;
                         newUser.img = profile.photos[0].value;
-
                         newUser.save(err => {
                             if (err) throw err;
                             return done(null, newUser);
