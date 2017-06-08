@@ -1,13 +1,13 @@
 'use strict';
 
 const Users = require('../models/users.js');
-const pins = require('../models/pins.js');
+const Pins = require('../models/pins.js');
 
 function ClickHandler() {
 
 	//Retrieve all pins in club's collection
 	this.showAllpins = function(req, res) {
-		pins
+		Pins
 			.find({}, {
 				'_id': 0
 			})
@@ -19,7 +19,7 @@ function ClickHandler() {
 
 	//Add book to club's collection
 	this.addToCollection = function(req, res) {
-		pins
+		Pins
 			.findOne({
 				'id': req.body.id,
 				'owner': req.body.owner
@@ -31,7 +31,7 @@ function ClickHandler() {
 				//If book exists, notify user
 				if (result) return res.send('exists');
 				//Otherwise, add book to database
-				let newBook = new pins(req.body);
+				let newBook = new Pins(req.body);
 				newBook
 					.save()
 					.then(res.json(newBook));
@@ -40,7 +40,7 @@ function ClickHandler() {
 
 	//Delete book from club's collection
 	this.delFromCollection = function(reqBook, reqOwner, res) {
-		pins
+		Pins
 			.remove({
 				'id': reqBook,
 				'owner': reqOwner
@@ -73,31 +73,16 @@ function ClickHandler() {
 	};
 	//Load user data
 	this.loadUser = function(req, res) {
-		console.log(req);
 		Users
 			.findOne({
-				'id': req.body.id
+				'id': req.session.user
 			}, {
 				'_id': 0,
 				'__v': 0,
-			})
-			.exec((err, result) => {
+			}, (err, result) => {
 				if (err) throw err;
-				//Set session cookie
-				req.session.user = req.body.id;
-				//If user exists, return data
-				if (result) {
-					return res.json(result);
-				}
-				//Otherwise, create new user with FB login data
-				let newUser = new Users({
-					id: req.body.id,
-					name: req.body.name,
-					location: req.body.location
-					});
-				newUser
-					.save()
-					.then(res.json(newUser));
+				console.log('loadUser Result:', result);
+				return res.json(result);
 			});
 	};
 
@@ -304,7 +289,7 @@ function ClickHandler() {
 		this.cancelTradeRequest(bookOwner, reqObj, res, true);
 
 		//Then, change the book owner
-		pins
+		Pins
 			.findOneAndUpdate({
 				'id': tradeReq.book
 			}, {

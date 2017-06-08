@@ -1,8 +1,11 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, progress */
+/* global $, ajaxFunctions, checkLoginStatus, progress */
 'use strict';
 
 $(document).ready(() => {
+    //First, check to see if user is logged in
+    checkLoginStatus();
+    
     //Automatically show all pins on index page
     //ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', getAllPins));
     progress('hide');

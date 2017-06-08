@@ -1,11 +1,13 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, generateLoggedInUI, localStorage, location, progress */
+/* global $, ajaxFunctions, generateLoggedInUI, localStorage, location, progress */
 'use strict';
 
 //Check for login status change
-function checkLoginStatus(response, reload) {
-    if (response.status === 'connected') loggedIn(response);
-    else loggedOut(reload);
+function checkLoginStatus() {
+    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/', (res) => {
+        if (typeof res !== Object) return false;
+        return JSON.parse(res);
+    }));
 }
 
 //Show logged-in view and save/load new user in DB

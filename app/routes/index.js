@@ -6,8 +6,8 @@ const ClickHandler = require(path + '/app/controllers/clickHandler.server');
 module.exports = (app, passport) => {
 
 	function isLoggedIn(req, res, next) {
-		if (req.isAuthenticated()) return next();
-		else res.redirect('/');
+		if (req.session.passport === req.session.user) return next();
+		else res.redirect('/logout');
 	}
 
 	let clickHandler = new ClickHandler();
@@ -32,6 +32,7 @@ module.exports = (app, passport) => {
 			if (!user) return res.send('Error');
 			req.logIn(user, err => {
 				if (err) return next(err);
+				req.session.passport = user.id;
 				req.session.user = user.id;
 				res.redirect('/');
 			});
@@ -43,8 +44,8 @@ module.exports = (app, passport) => {
 		.get((req, res) => clickHandler.showAllpins(req, res));
 
 	//Get user information
-	app.get('/api/:id', isLoggedIn, (req, res) => {
-		clickHandler.loadUser(res, res);
+	app.get('/api/:id?', isLoggedIn, (req, res) => {
+		clickHandler.loadUser(req, res);
 	});
 
 	//Add & remove pin routes
@@ -52,5 +53,4 @@ module.exports = (app, passport) => {
 		.post((req, res) => clickHandler.addToCollection(req, res))
 		.put((req, res) => clickHandler.addPin(req.params.pinId, req.session.user, res))
 		.delete((req, res) => clickHandler.delPin(req.params.pinId, req.session.user, res));
-
 };

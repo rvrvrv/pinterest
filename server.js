@@ -6,7 +6,6 @@ const favicon = require('serve-favicon');
 const routes = require('./app/routes/index.js');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const path = require('path');
 const session = require('client-sessions');
 
 const app = express();
@@ -17,7 +16,7 @@ mongoose.connect(process.env.MONGO_URI);
 mongoose.Promise = global.Promise;
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(process.cwd() + '/public/favicon.ico'));
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/app/common'));
