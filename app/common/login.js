@@ -1,41 +1,54 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, generateLoggedInUI, localStorage, location, progress */
+/* global $, ajaxFunctions, localStorage, location */
 'use strict';
 
 //Check for login status change
 function checkLoginStatus() {
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/', (res) => {
-        if (typeof res !== Object) return false;
-        return JSON.parse(res);
+        if (typeof res === 'object') loggedIn(JSON.parse(res));
     }));
 }
 
-//Show logged-in view and save/load new user in DB
-function loggedIn(response) {
-    if ($('#adsblocked')) $('#adsblocked').remove();
-    progress('show');
-    FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
-        //Store user's info
-        localStorage.setItem('rv-bookclub-id', user.id);
-        let userLoc = (!user.location) ? 'Add your location' : user.location.name;
-        let currentUser = {
-            id: user.id,
-            name: `${user.first_name} ${user.last_name}`,
-            location: userLoc,
-            signed: response.authResponse.accessToken
-        };
-        //Load or create new user in DB
-		$.post('/api/user/', currentUser)
-			.done((res) => {
-			    //Update UI with logged-in view)
-                generateLoggedInUI(res, user.picture.data.url);
-                progress('hide');
-			})
-			.fail(() => {
-			    console.error('Could not load data');
-			    progress('hide');
-			});
+//Show logged-in view
+function loggedIn(user) {
+    console.log(user);
+    //Store user's info
+    localStorage.setItem('rv-pinterest-id', user.id);
+
+    //Generate user info in navbar
+    $('#userInfo').html(`
+        <a class="dropdown-button" data-beloworigin="true" data-activates="userDropdown">
+        <li><img class="valign left-align" src="${user.img}"
+        alt="${user.name}" id="navImg"></li>
+        <li class="hide-on-small-only" id="navName">${user.name.split(' ')[0]}</li></a>`);
+
+    //Generate dropdown menu
+    $('#userDropdown').html(`
+        <li><a class="waves-effect waves-light dynLink" data-link="addpin">Add a Pin</a></li>
+        <li><a class="waves-effect waves-red" href="/logout">Log Out</a></li>`);
+
+    //Initialize dropdown menu
+    $('.dropdown-button').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrainWidth: false,
+        hover: false,
+        gutter: 0,
+        belowOrigin: false,
+        alignment: 'left',
+        stopPropagation: false
     });
+
+    //Remove login button and change welcome message
+    $('#loginBtn').remove();
+    $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
+            Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add a book</a>
+            or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
+    $('#bottomInfo').html(`<h5 class="center">Select any book for more information.</h5>`);
+
+    //Activate all dynamic links
+    //activateLinks();
+
 }
 
 //Remove stored ID and redirect to homepage (if necessary)

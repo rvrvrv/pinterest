@@ -6,6 +6,7 @@ const ClickHandler = require(path + '/app/controllers/clickHandler.server');
 module.exports = (app, passport) => {
 
 	function isLoggedIn(req, res, next) {
+		console.log('req.session at isLoggedIn: ', req.session);
 		if (req.session.passport === req.session.user) return next();
 		else res.redirect('/logout');
 	}
@@ -19,7 +20,7 @@ module.exports = (app, passport) => {
 
 	//Logout route
 	app.get('/logout', (req, res) => {
-		req.logout();
+		req.session.reset();
 		res.redirect('/');
 	});
 
@@ -32,6 +33,7 @@ module.exports = (app, passport) => {
 			if (!user) return res.send('Error');
 			req.logIn(user, err => {
 				if (err) return next(err);
+				console.log('req.session at callback: ', req.session);
 				req.session.passport = user.id;
 				req.session.user = user.id;
 				res.redirect('/');
