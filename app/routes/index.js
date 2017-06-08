@@ -8,7 +8,6 @@ module.exports = (app, passport) => {
 	function isLoggedIn(req, res, next) {
 		console.log('req.session at isLoggedIn: ', req.session);
 		if (req.session.passport === req.session.user) return next();
-		else res.redirect('/logout');
 	}
 
 	let clickHandler = new ClickHandler();

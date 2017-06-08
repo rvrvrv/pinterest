@@ -2,10 +2,10 @@
 /* global $, ajaxFunctions, localStorage, location */
 'use strict';
 
-//Check for login status change
+//Check for login status
 function checkLoginStatus() {
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/', (res) => {
-        if (typeof res === 'object') loggedIn(JSON.parse(res));
+        if (res !== 'no') loggedIn(JSON.parse(res));
     }));
 }
 
@@ -25,7 +25,13 @@ function loggedIn(user) {
     //Generate dropdown menu
     $('#userDropdown').html(`
         <li><a class="waves-effect waves-light dynLink" data-link="addpin">Add a Pin</a></li>
-        <li><a class="waves-effect waves-red" href="/logout">Log Out</a></li>`);
+        <li><a class="waves-effect waves-red" id="logoutBtn">Log Out</a></li>`);
+
+    //Activate logout link
+    $('#logoutBtn').click(() => {
+        localStorage.removeItem('rv-pinterest-id');
+        location.replace('/logout');
+    });
 
     //Initialize dropdown menu
     $('.dropdown-button').dropdown({
@@ -41,19 +47,18 @@ function loggedIn(user) {
 
     //Remove login button and change welcome message
     $('#loginBtn').remove();
-    $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
-            Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add a book</a>
-            or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
-    $('#bottomInfo').html(`<h5 class="center">Select any book for more information.</h5>`);
 
-    //Activate all dynamic links
-    //activateLinks();
+    //Activate dynamic links for logged-in user
+    activateLinks();
 
 }
 
-//Remove stored ID and redirect to homepage (if necessary)
-function loggedOut(reload) {
-    localStorage.removeItem('rv-bookclub-id');
-    //If user isn't logged in, redirect to homepage
-    if (reload) location.replace('/logout');
+//Activate dynamic links
+function activateLinks() {
+    //Iterate through all dynamic links
+    $('.dynLink').each(function() {
+        let link = $(this).data('link');
+        if (link.includes('modal'))
+            $(this).click(() => $(link).modal('open'));
+    });
 }

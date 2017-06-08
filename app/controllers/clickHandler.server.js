@@ -81,8 +81,8 @@ function ClickHandler() {
 				'__v': 0,
 			}, (err, result) => {
 				if (err) throw err;
-				console.log('loadUser Result:', result);
-				return res.json(result);
+				if (!result) return res.send('no');
+				res.json(result);
 			});
 	};
 
