@@ -3,12 +3,15 @@
 'use strict';
 
 $(document).ready(() => {
-    //First, check to see if user is logged in
+    //Check to see if user is logged in. If so, logged-in view is generated.
     checkLoginStatus();
-    
+
     //Automatically show all pins on index page
     //ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', getAllPins));
-    progress('hide');
+    
+    
+    //When navbar title is clicked, scroll to top of page
+    $('.brand-logo').click(() => scroll(0, 0));
 });
 
 

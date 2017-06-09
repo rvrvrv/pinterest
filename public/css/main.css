@@ -13,6 +13,15 @@ body {
     color: #003;
 }
 
+img {
+    max-width: 800px;
+    border-radius: 2%;
+}
+
+.img-small {
+    max-width: 250px;
+}
+
 h4 {
     font-size: 2rem;
 }

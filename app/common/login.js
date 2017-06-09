@@ -1,11 +1,12 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, localStorage, location */
+/* global $, ajaxFunctions, localStorage, location, progress */
 'use strict';
 
 //Check for login status
 function checkLoginStatus() {
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/', (res) => {
         if (res !== 'no') loggedIn(JSON.parse(res));
+        progress('hide');
     }));
 }
 
