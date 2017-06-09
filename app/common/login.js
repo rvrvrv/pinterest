@@ -29,42 +29,47 @@ function loggedIn(user) {
 
     //Generate dropdown menu
     $('#userDropdown').html(`
-        <li><a class="waves-effect waves-light dynLink" data-link="addpin">Add a Pin</a></li>
+        <li><a class="waves-effect waves-light dynLink" data-link="#modal-newPin">Add a Pin</a></li>
         <li><a class="waves-effect waves-red" id="logoutBtn">Log Out</a></li>`);
 
+    //Initialize dropdown menu
+    $('.dropdown-button').dropdown({
+        inDuration: 350,
+        outDuration: 175,
+        constrainWidth: false,
+        hover: true,
+        belowOrigin: true,
+        alignment: 'left',
+        stopPropagation: false
+    });
+
+    //Generate 'New Pin' modal
+    $('.modals').append(`
+        <div id="modal-newPin" class="modal">
+            <div class="modal-content">
+                <h4>New Pin</h4>
+                <div class="modal-fixed-footer right">
+                    <a class="modal-action modal-close waves-effect waves-light btn-flat">Cancel</a>
+                    <a class="req-btn waves-effect waves-green btn-flat tooltipped" data-tooltip="Save this pin" 
+                        onclick="savePin(this, true)">Save Pin</a>
+                </div>
+            </div>`);
+    $('.modal').modal();
+    
     //Activate logout link
     $('#logoutBtn').click(() => {
         localStorage.removeItem('rv-pinterest-id');
         location.replace('/logout');
     });
 
-    //Initialize dropdown menu
-    $('.dropdown-button').dropdown({
-        inDuration: 300,
-        outDuration: 225,
-        constrainWidth: false,
-        hover: false,
-        gutter: 0,
-        belowOrigin: false,
-        alignment: 'left',
-        stopPropagation: false
-    });
-
     //Activate dynamic links for logged-in user
-    activateLinks();
-    
-    //Remove login button
-    $('.login-btn').remove();
-    
-    progress('hide');
-}
-
-//Activate dynamic links
-function activateLinks() {
-    //Iterate through all dynamic links
     $('.dynLink').each(function() {
         let link = $(this).data('link');
         if (link.includes('modal'))
             $(this).click(() => $(link).modal('open'));
     });
+
+    //Remove login button
+    $('.login-btn').remove();
+    progress('hide');
 }

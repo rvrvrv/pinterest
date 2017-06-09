@@ -18,9 +18,6 @@
     </ul>
     <nav>
       <div class="nav-wrapper pink darken-4">
-        <ul class="left">
-          <li><a class="logout-buttons hide-on-large-only hidden" id="logoutLink">Log Out</a></li>
-        </ul>
         <a class="brand-logo center">Almost Pinterest</a>
         <ul class="right valign-wrapper" id="userInfo"></ul>
       </div>
@@ -40,7 +37,10 @@
   </div>
   
   <div class="row">
-    <img onerror="this.src='../public/img/blank.jpg'" src="https://google.com/broken.jpg" alt="Test"></img>
+    <a class="dynLink" data-link="#modal-newPin">
+      <img class="img-small" onerror="this.src='../public/img/blank.jpg'"
+        src="https://google.com/broken.jpg" alt="Test"></img>
+    </a>
   </div>
   
   <div class="modals"></div>
