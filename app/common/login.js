@@ -5,8 +5,12 @@
 //Check for login status
 function checkLoginStatus() {
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/', (res) => {
-        if (res !== 'no') loggedIn(JSON.parse(res));
-        progress('hide');
+        //If user is not logged in, show the login button
+        if (res === 'no') {
+            $('.login-btn').removeClass('hidden');
+            progress('hide');
+        }
+        else loggedIn(JSON.parse(res));
     }));
 }
 
@@ -46,12 +50,13 @@ function loggedIn(user) {
         stopPropagation: false
     });
 
-    //Remove login button and change welcome message
-    $('#loginBtn').remove();
-
     //Activate dynamic links for logged-in user
     activateLinks();
-
+    
+    //Remove login button
+    $('.login-btn').remove();
+    
+    progress('hide');
 }
 
 //Activate dynamic links
