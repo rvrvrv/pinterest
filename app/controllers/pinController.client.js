@@ -2,9 +2,8 @@
 /* global $, ajaxFunctions, localStorage, Materialize, progress */
 'use strict';
 
+const urlReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
 let lastUrl;
-
-$(document).ready(() => $('#newPinUrl').focusout(() => updateImg()));
 
 //Update UI when image cannot be found
 function badImg(url) {
@@ -12,8 +11,6 @@ function badImg(url) {
     $('#newPinImg').attr('src', '../public/img/badImg.jpg');
     //Notify the user
     Materialize.toast(`No image found at '${url}'`, 3000, 'error');
-    //Update lastUrl for form submission validation
-    lastUrl = false;
 }
 
 //Validate URL field and update image
@@ -23,13 +20,15 @@ function updateImg() {
     if ($url.val() === '') return;
     //Otherwise, continue with validation
     let thisUrl = $url.val().trim();
+
     //Prepend URL with protocol, if necessary
-    if (!thisUrl.toLowerCase().startsWith('http')) {
-        thisUrl = 'https://' + thisUrl;
-        $url.val(thisUrl);
-    }
+    if (!thisUrl.toLowerCase().startsWith('http')) thisUrl = 'https://' + thisUrl;
+    
+    //Then, compare against regex
+    if (!thisUrl.match(urlReg)) return $url.addClass('invalid');
+    
     //If URL is new and appears valid, update the image
-    if (thisUrl !== lastUrl && $('#newPinUrl').hasClass('valid')) {
+    if (thisUrl !== lastUrl) {
         $('#newPinImg').attr('src', thisUrl);
         lastUrl = thisUrl;
     }

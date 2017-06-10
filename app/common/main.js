@@ -2,14 +2,6 @@
 /* global $, ajaxFunctions, localStorage, Materialize */
 'use strict';
 
-//Show and hide progress bar
-function progress(operation) {
-    if (operation === 'show') $('.progress').removeClass('hidden');
-    else $('.progress').addClass('hidden');
-}
-
-//When navbar title is clicked, scroll to top of page
-$('.brand-logo').click(() => scroll(0, 0));
 
 /*
 //Restore modal buttons upon close

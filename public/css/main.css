@@ -20,19 +20,20 @@ img {
     border-radius: 2%;
 }
 
-h4 {
-    font-size: 2rem;
-}
-
 a:hover {
     cursor: pointer;
+}
+
+h5 {
+    font-size: 1.2rem;
 }
 
 .btn {
     background: #880e4f;
 }
 
-.btn:focus, .btn:hover {
+.btn:focus,
+.btn:hover {
     background: #ad1457;
 }
 
@@ -42,6 +43,7 @@ a:hover {
 
 .modal {
     max-height: 100vh;
+    overflow-y: hidden;
 }
 
 .navbar-fixed {
@@ -82,48 +84,49 @@ a:hover {
     color: #000;
 }
 
+
 /* Pin creation modal and form */
 
 .validate {
     font-size: 1.3em !important;
 }
 
-.valid {
-    border-bottom: 1px solid #880e4f;
-    box-shadow: 0 1px 0 0 #c51162;
-}
-
 #newImgDiv {
-  height: 350px;
+    height: 350px;
 }
 
-#newPinImg{
-  max-width: 400px;
-  max-height: 340px;
-  margin-bottom: 30px;
+#newPinImg {
+    max-width: 400px;
+    max-height: 340px;
+    margin-bottom: 30px;
 }
 
 .input-field input {
-  font-size: 1.3em;
+    font-size: 1.3em;
 }
 
-.input-field input:not([tel]):focus + label {
-  color: #809;
+.input-field input:not([tel]):focus+label {
+    color: #7c028c;
 }
 
 .input-field input:not([tel]) {
-  border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee;
 }
 
 .input-field input:not([tel]):focus {
-  border-bottom: 1px solid #000;
-  box-shadow: 0 1px 0 0 #000;
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+}
+
+.input-field input.valid {
+    box-shadow: 0 1px #000;
 }
 
 .input-field label {
-  font-size: 1.1em !important;
-  margin-top: 5px;
+    font-size: 1.1em !important;
+    margin-top: 5px;
 }
+
 
 /* Animation */
 

@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, localStorage, location, progress */
+/* global $, ajaxFunctions, localStorage, location, progress, updateImg */
 'use strict';
 
 //Check for login status
@@ -51,6 +51,9 @@ function loggedIn(user) {
                     <img class="z-depth-4" id="newPinImg" src="../public/img/galaxy.jpg" onerror="badImg(this.src)"></img>
                 </div>
                 <form class="col s12">
+                    <div class="row center">
+                        <h5>Add a pin! Fill out the fields below, and share your awesome pin with the community.</h6>
+                    </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="newPinCaption" alt="Caption" placeholder="Radiant Galaxy" type="text" 
@@ -61,18 +64,23 @@ function loggedIn(user) {
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="newPinUrl" alt="Image URL" placeholder="https://goo.gl/Ls5l2M" type="url" 
-                                class="validate" maxlength="100" data-length="100">
+                                class="validate" maxlength="500" data-length="500">
                             <label class="active" for="newPinUrl" data-error="Please enter a valid image URL.">Image URL</label>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer center">
-                <a class="waves-effect waves-green btn-flat" onclick="savePin()">Save Pin</a>
-                <a class="waves-effect waves-red btn-flat" onclick="cancelPin()">Cancel</a>
+            <div class="modal-footer valign-wrapper">
+                <div class="row center">
+                    <a class="waves-effect waves-green btn-flat" onclick="savePin()">Save Pin</a>
+                    <a class="waves-effect waves-red btn-flat" onclick="cancelPin()">Cancel</a>
+                </div>
             </div>
         </div>`);
+    $('#newPinUrl').focusout(() => updateImg());
     $('.modal').modal();
+    
+    
 
     //Activate logout link
     $('#logoutBtn').click(() => {

@@ -14,6 +14,11 @@ $(document).ready(() => {
     $('.brand-logo').click(() => scroll(0, 0));
 });
 
+//Show and hide progress bar
+function progress(operation) {
+    if (operation === 'show') $('.progress').removeClass('hidden');
+    else $('.progress').addClass('hidden');
+}
 
 //Retrieve and display all pins from DB
 function getAllPins(data) {
