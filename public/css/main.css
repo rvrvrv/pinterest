@@ -14,12 +14,10 @@ body {
 }
 
 img {
+    display: block;
+    margin: 0 auto;
     max-width: 800px;
     border-radius: 2%;
-}
-
-.img-small {
-    max-width: 250px;
 }
 
 h4 {
@@ -28,10 +26,6 @@ h4 {
 
 a:hover {
     cursor: pointer;
-}
-
-.hidden {
-    opacity: 0;
 }
 
 .btn {
@@ -46,12 +40,24 @@ a:hover {
     background-color: #1da1f2;
 }
 
-.error {
-    background: #a00;
+.modal {
+    max-height: 100vh;
 }
 
 .navbar-fixed {
     user-select: none;
+}
+
+.error {
+    background: #800;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.img-small {
+    max-width: 250px;
 }
 
 #userInfo a {
@@ -76,9 +82,7 @@ a:hover {
     color: #000;
 }
 
-.modal-pin {
-    max-width: 500px !important;
-}
+/* Pin creation modal and form */
 
 .validate {
     font-size: 1.3em !important;
@@ -89,32 +93,37 @@ a:hover {
     box-shadow: 0 1px 0 0 #c51162;
 }
 
+#newImgDiv {
+  height: 350px;
+}
+
+#newPinImg{
+  max-width: 400px;
+  max-height: 340px;
+  margin-bottom: 30px;
+}
+
 .input-field input {
-    margin-bottom: 0 !important;
+  font-size: 1.3em;
 }
 
-.input-field input[type=text]:focus+label {
-    color: #400;
+.input-field input:not([tel]):focus + label {
+  color: #809;
 }
 
-.input-field input[type=text]:focus {
-    border-bottom: 1px solid #400;
-    box-shadow: 0 1px 0 0 #400;
+.input-field input:not([tel]) {
+  border-bottom: 1px solid #eee;
 }
 
-.input-field .prefix.active {
-    color: #0277bd;
+.input-field input:not([tel]):focus {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
 }
 
 .input-field label {
-    font-size: 1.1em !important;
-    margin-top: 7px;
+  font-size: 1.1em !important;
+  margin-top: 5px;
 }
-
-.modal-footer {
-    margin-top: -100px !important;
-}
-
 
 /* Animation */
 

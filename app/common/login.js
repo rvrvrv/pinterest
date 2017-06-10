@@ -47,15 +47,33 @@ function loggedIn(user) {
     $('.modals').append(`
         <div id="modal-newPin" class="modal">
             <div class="modal-content">
-                <h4>New Pin</h4>
-                <div class="modal-fixed-footer right">
-                    <a class="modal-action modal-close waves-effect waves-light btn-flat">Cancel</a>
-                    <a class="req-btn waves-effect waves-green btn-flat tooltipped" data-tooltip="Save this pin" 
-                        onclick="savePin(this, true)">Save Pin</a>
+                <div class="row" id="newImgDiv">
+                    <img class="z-depth-4" id="newPinImg" src="../public/img/galaxy.jpg" onerror="badImg(this.src)"></img>
                 </div>
-            </div>`);
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="newPinCaption" alt="Caption" placeholder="Radiant Galaxy" type="text" 
+                                class="validate" pattern="[a-zA-Z0-9.,?!@#$%&*() ]{1,}$" maxlength="50" data-length="50">
+                            <label class="active" for="newPinCaption" data-error="Please enter a valid caption.">Caption</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="newPinUrl" alt="Image URL" placeholder="https://goo.gl/Ls5l2M" type="url" 
+                                class="validate" maxlength="100" data-length="100">
+                            <label class="active" for="newPinUrl" data-error="Please enter a valid image URL.">Image URL</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer center">
+                <a class="waves-effect waves-green btn-flat" onclick="savePin()">Save Pin</a>
+                <a class="waves-effect waves-red btn-flat" onclick="cancelPin()">Cancel</a>
+            </div>
+        </div>`);
     $('.modal').modal();
-    
+
     //Activate logout link
     $('#logoutBtn').click(() => {
         localStorage.removeItem('rv-pinterest-id');
