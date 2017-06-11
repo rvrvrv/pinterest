@@ -63,7 +63,7 @@ function loggedIn(user) {
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="newPinUrl" alt="Image URL" placeholder="https://goo.gl/Ls5l2M" type="url" 
+                            <input id="newPinUrl" alt="Image URL" placeholder="https://goo.gl/Ls5l2M" type="text" 
                                 class="validate" maxlength="500" data-length="500">
                             <label class="active" for="newPinUrl" data-error="Please enter a valid image URL.">Image URL</label>
                         </div>
