@@ -43,7 +43,7 @@ function loggedIn(user) {
         stopPropagation: false
     });
 
-    //Generate 'New Pin' modal
+    //Generate 'New Pin' modals
     $('.modals').append(`
         <div id="modal-newPin" class="modal">
             <div class="modal-content">
@@ -52,7 +52,7 @@ function loggedIn(user) {
                 </div>
                 <form class="col s12">
                     <div class="row center">
-                        <h5>Add a pin! Fill out the fields below, and share your awesome pin with the community.</h6>
+                        <h5>Add a pin! Fill out the fields below, and share your awesome pin with the community.</h5>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
@@ -63,7 +63,7 @@ function loggedIn(user) {
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="newPinUrl" alt="Image URL" placeholder="https://goo.gl/Ls5l2M" type="text" 
+                            <input id="newPinUrl" alt="Image URL" placeholder="https://goo.gl/Ls5l2M" type="url" 
                                 class="validate" maxlength="500" data-length="500">
                             <label class="active" for="newPinUrl" data-error="Please enter a valid image URL.">Image URL</label>
                         </div>
@@ -72,8 +72,21 @@ function loggedIn(user) {
             </div>
             <div class="modal-footer valign-wrapper">
                 <div class="row center">
-                    <a class="waves-effect waves-green btn-flat" onclick="savePin()">Save Pin</a>
+                    <a class="waves-effect waves-green btn-flat" id="saveBtn" onclick="savePin()">Save Pin</a>
                     <a class="waves-effect waves-red btn-flat" onclick="cancelPin()">Cancel</a>
+                </div>
+            </div>
+        </div>
+        <div id="modal-confirm" class="modal">
+            <div class="modal-content">
+                <div class="row center">
+                    <h5>Are you sure?</h5>
+                </div>
+            </div>
+            <div class="modal-footer valign-wrapper">
+                <div class="row center">
+                    <a class="waves-effect waves-green btn-flat modal-action modal-close" onclick="savePin(true)">Yes</a>
+                    <a class="waves-effect waves-red btn-flat modal-action modal-close">No</a>
                 </div>
             </div>
         </div>`);
