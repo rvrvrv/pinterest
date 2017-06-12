@@ -7,7 +7,7 @@ module.exports = (app, passport) => {
 
 	function isLoggedIn(req, res, next) {
 		console.log('req.session at isLoggedIn: ', req.session);
-		if (req.session.passport === req.session.user) return next();
+		if (req.session.passport === req.session.userId) return next();
 	}
 
 	let clickHandler = new ClickHandler();
@@ -32,9 +32,9 @@ module.exports = (app, passport) => {
 			if (!user) return res.send('Error');
 			req.logIn(user, err => {
 				if (err) return next(err);
-				console.log('req.session at callback: ', req.session);
 				req.session.passport = user.id;
-				req.session.user = user.id;
+				req.session.userId = user.id;
+				req.session.userName = user.name;
 				res.redirect('/');
 			});
 		})(req, res, next);

@@ -5,6 +5,21 @@ const Pins = require('../models/pins.js');
 
 function ClickHandler() {
 
+	//Load user data
+	this.loadUser = function(req, res) {
+		Users
+			.findOne({
+				'id': req.session.userId
+			}, {
+				'_id': 0,
+				'__v': 0,
+			}, (err, result) => {
+				if (err) throw err;
+				if (!result) return res.send('no');
+				res.json(result);
+			});
+	};
+
 	//Retrieve all pins in club's collection
 	this.showAllpins = function(req, res) {
 		Pins
@@ -16,6 +31,8 @@ function ClickHandler() {
 				res.json(result);
 			});
 	};
+
+
 
 	//Add book to club's collection
 	this.addToCollection = function(req, res) {
@@ -71,45 +88,6 @@ function ClickHandler() {
 					});
 			});
 	};
-	//Load user data
-	this.loadUser = function(req, res) {
-		Users
-			.findOne({
-				'id': req.session.user
-			}, {
-				'_id': 0,
-				'__v': 0,
-			}, (err, result) => {
-				if (err) throw err;
-				if (!result) return res.send('no');
-				res.json(result);
-			});
-	};
-
-	//Update user profile
-	this.updateUser = function(reqId, reqName, reqLocation, res) {
-		Users
-			.findOneAndUpdate({
-				'id': reqId
-			}, {
-				$set: {
-					'name': reqName.trim(),
-					'location': reqLocation.trim()
-				},
-			}, {
-				projection: {
-					'name': 1,
-					'location': 1,
-					'_id': 0
-				},
-				new: true
-			})
-			.exec((err, result) => {
-				if (err) throw err;
-				res.json(result);
-			});
-	};
-
 	//Add book to user's collection
 	this.addBook = function(reqBook, reqUser, res, trade) {
 		Users
@@ -217,19 +195,19 @@ function ClickHandler() {
 	//Cancel trade request
 	this.cancelTradeRequest = function(canceller, reqObj, res, trade) {
 		let tradeReq = JSON.parse(reqObj);
-		
+
 		/*For security, check whether trade request is being cancelled by
 		book owner (rejecting trade) or another user (cancelling request).*/
-		
+
 		if (tradeReq.title) tradeReq.user = canceller;
 		else tradeReq.owner = canceller;
-		
+
 		/*This is determined by the existence of tradeReq.title. If it exists,
 		the trade was cancelled by the requester. Otherwise, the trade was 
 		rejected by the book owner. 
 		The canceller param is req.session.user, so this check prevents
 		rogue API calls.*/
-		
+
 		//First, cancel the request to the book owner
 		Users
 			.findOneAndUpdate({
