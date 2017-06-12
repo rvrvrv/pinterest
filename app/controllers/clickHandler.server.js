@@ -28,6 +28,7 @@ function ClickHandler() {
 			})
 			.exec((err, result) => {
 				if (err) throw err;
+				console.log(result);
 				res.json(result);
 			});
 	};
@@ -60,7 +61,7 @@ function ClickHandler() {
 					'likes': 0
 				});
 				newPin.save()
-					.then(this.showAllPins(reqSrc, res));
+					.then(res.json(newPin));
 				});
 	};
 

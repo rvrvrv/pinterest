@@ -74,11 +74,13 @@ function performSave() {
 	    //Restore UI
 	    $('#modal-confirm').modal('close');
 	    cancelPin();
-	    Materialize.toast('New pin saved!', 3000);
-	    $('#modal-confirm a').removeClass('disabled');
-	    $('#modal-confirm h5').html('Are you sure?');
+	    setTimeout(() => { 
+	        $('#modal-confirm a').removeClass('disabled');
+	        $('#modal-confirm h5').html('Are you sure?');
+	    }, 1000);
 	    progress('hide');
-	    return console.log(data);
+	    Materialize.toast('New pin saved!', 3000);
+	    console.log(data);
 	});
 }
 
