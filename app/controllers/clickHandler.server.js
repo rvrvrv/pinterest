@@ -31,27 +31,50 @@ function ClickHandler() {
 				res.json(result);
 			});
 	};
+	
+	//Add pin to user's collection
+	this.addPin = function(req, res) {
+		console.log('REQ.BODY:',req.body);
+		Users
+			.findOneAndUpdate({
+				'id': req.session.userId,
+			}, {
+				$addToSet: {
+					'pins': req.body.src
+				},
+			}, {
+				projection: {
+					'_id': 0,
+					'__v': 0,
+				},
+			})
+			.exec((err, result) => {
+				console.log('RESULT', result);
+				if (err) throw err;
+				if (result) return res.send('exists');
+			});
+	};
 
-
-
-	//Add book to club's collection
+	//Add pin to club's collection
 	this.addToCollection = function(req, res) {
 		Pins
 			.findOne({
-				'id': req.body.id,
-				'owner': req.body.owner
+				'src': req.body.src,
+				'ownerId': req.session.userId,
+				'ownerName': req.session.userName
 			}, {
 				'_id': 0,
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				//If book exists, notify user
+				//If pin exists, notify user
 				if (result) return res.send('exists');
-				//Otherwise, add book to database
-				let newBook = new Pins(req.body);
-				newBook
-					.save()
-					.then(res.json(newBook));
+				console.log(req.body);
+				//Otherwise, add pin to database
+				//let newPin = new Pins(req.body);
+				// newBook
+				// 	.save()
+				// 	.then(res.json(newBook));
 			});
 	};
 
@@ -88,29 +111,7 @@ function ClickHandler() {
 					});
 			});
 	};
-	//Add book to user's collection
-	this.addBook = function(reqBook, reqUser, res, trade) {
-		Users
-			.findOneAndUpdate({
-				'id': reqUser
-			}, {
-				$addToSet: {
-					'pins': reqBook
-				},
-			}, {
-				projection: {
-					'_id': 0,
-					'__v': 0,
-					'incomingRequests._id': 0,
-					'outgoingRequests._id': 0,
-				},
-				'new': true
-			})
-			.exec((err, result) => {
-				if (err) throw err;
-				if (!trade) res.json(result);
-			});
-	};
+
 
 	//Remove book from user's collection and club collection, if necessary
 	this.delBook = function(reqBook, reqUser, res, trade) {

@@ -2,7 +2,6 @@
 /* global $, ajaxFunctions, localStorage, Materialize, progress */
 'use strict';
 
-//const urlReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
 let lastUrl;
 
 //Update UI when image cannot be found
@@ -49,7 +48,7 @@ function savePin(confirmed) {
     if (!caption || $('#newPinCaption').hasClass('invalid')) return Materialize.toast('Please enter a valid caption for your pin.', 3000, 'error');
     if (!lastUrl) return Materialize.toast('Please enter a valid image URL.', 3000, 'error');
 
-    /*If fields appear to be valid, wait for 2 seconds, and then ask for confirmation 
+    /*If fields appear to be valid, wait for 2.5 seconds, and then ask for confirmation 
     before submission. This allows for additional URL validation.*/
     let $btn = $('#saveBtn');
     $btn.html('<i class="fa fa-circle-o-notch fa-spin fa-3x"></i>');
@@ -59,7 +58,7 @@ function savePin(confirmed) {
         if (lastUrl) $('#modal-confirm').modal('open');
         $btn.html('Save Pin');
         $btn.removeClass('disabled');
-    }, 2000);
+    }, 2500);
 }
 
 //Cancel pin creation
