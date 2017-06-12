@@ -85,8 +85,8 @@ function loggedIn(user) {
             </div>
             <div class="modal-footer valign-wrapper">
                 <div class="row center">
-                    <a class="waves-effect waves-green btn-flat modal-action modal-close" onclick="savePin(true)">Yes</a>
-                    <a class="waves-effect waves-red btn-flat modal-action modal-close">No</a>
+                    <a class="waves-effect waves-green btn-flat" id="confirmSaveBtn" onclick="performSave()">Yes</a>
+                    <a class="waves-effect waves-red btn-flat modal-action modal-close" id="notConfirmedBtn">No</a>
                 </div>
             </div>
         </div>`);

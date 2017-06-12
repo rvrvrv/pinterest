@@ -36,13 +36,8 @@ function updateImg() {
     }
 }
 
-//Form submission
-function savePin(confirmed) {
-    //TO DO: Implement save functionality
-    if (confirmed) {
-        return Materialize.toast('Saved!');
-    }
-    
+//Initial pin-creation submission
+function savePin() {
     let caption = $('#newPinCaption').val();
     //Check for blank/invalid fields
     if (!caption || $('#newPinCaption').hasClass('invalid')) return Materialize.toast('Please enter a valid caption for your pin.', 3000, 'error');
@@ -60,6 +55,32 @@ function savePin(confirmed) {
         $btn.removeClass('disabled');
     }, 2500);
 }
+
+//After confirmation, save pin to the DB
+function performSave() {
+    let pinCaption = $('#newPinCaption');
+    let pinSrc = $('#newPinUrl');
+    //Final validation check
+    if (pinCaption.hasClass('invalid') || pinSrc.hasClass('invalid')) return $('#modal-confirm').modal('close');
+    
+	//Update UI while save is performed
+	progress('show');
+	$('#modal-confirm a').addClass('disabled');
+	$('#modal-confirm h5').html('Saving...');
+	
+	//Update the database (add pin to the user's collection)
+	let apiUrl = `/api/pin/${encodeURIComponent(pinSrc.val())}/${encodeURIComponent(pinCaption.val())}`;
+	ajaxFunctions.ajaxRequest('PUT', apiUrl, (data) => {
+	    //Restore UI
+	    $('#modal-confirm').modal('close');
+	    $('#modal-confirm a').removeClass('disabled');
+	    $('#modal-confirm h5').html('Are you sure?');
+	    cancelPin();
+	    Materialize.toast('New pin saved!');
+	    return console.log(data);
+	});
+}
+
 
 //Cancel pin creation
 function cancelPin() {

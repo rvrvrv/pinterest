@@ -41,11 +41,6 @@ h5 {
     background-color: #1da1f2;
 }
 
-.modal {
-    max-height: 100vh;
-    overflow-y: hidden;
-}
-
 .navbar-fixed {
     user-select: none;
 }
@@ -87,8 +82,14 @@ h5 {
 
 /* Pin creation modal and form */
 
-.validate {
-    font-size: 1.3em !important;
+.modal {
+    max-height: 100vh;
+    overflow-y: hidden;
+}
+
+#modal-confirm {
+    width: 25%;
+    margin-top: 25%;
 }
 
 #newImgDiv {
@@ -99,6 +100,10 @@ h5 {
     max-width: 400px;
     max-height: 340px;
     margin-bottom: 30px;
+}
+
+.validate {
+    font-size: 1.3em !important;
 }
 
 .input-field input {

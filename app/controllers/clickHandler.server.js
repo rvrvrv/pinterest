@@ -21,7 +21,7 @@ function ClickHandler() {
 	};
 
 	//Retrieve all pins in club's collection
-	this.showAllpins = function(req, res) {
+	this.showAllPins = function(req, res) {
 		Pins
 			.find({}, {
 				'_id': 0
@@ -32,50 +32,36 @@ function ClickHandler() {
 			});
 	};
 	
-	//Add pin to user's collection
-	this.addPin = function(req, res) {
-		console.log('REQ.BODY:',req.body);
+	//Add pin to user's list and overall collection
+	this.addPin = function(reqSess, reqSrc, reqCaption, res) {
+		//First, add pin to user's list
 		Users
 			.findOneAndUpdate({
-				'id': req.session.userId,
+				'id': reqSess.userId,
 			}, {
 				$addToSet: {
-					'pins': req.body.src
+					'pins': reqSrc
 				},
 			}, {
 				projection: {
 					'_id': 0,
 					'__v': 0,
 				},
-			})
-			.exec((err, result) => {
-				console.log('RESULT', result);
-				if (err) throw err;
-				if (result) return res.send('exists');
-			});
-	};
-
-	//Add pin to club's collection
-	this.addToCollection = function(req, res) {
-		Pins
-			.findOne({
-				'src': req.body.src,
-				'ownerId': req.session.userId,
-				'ownerName': req.session.userName
-			}, {
-				'_id': 0,
+				new: true
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				//If pin exists, notify user
-				if (result) return res.send('exists');
-				console.log(req.body);
-				//Otherwise, add pin to database
-				//let newPin = new Pins(req.body);
-				// newBook
-				// 	.save()
-				// 	.then(res.json(newBook));
-			});
+				//Then, add to club collection
+				let newPin = new Pins({
+					'caption': reqCaption,
+					'src': reqSrc,
+					'ownerId': reqSess.userId,
+					'ownerName': reqSess.userName,
+					'likes': 0
+				});
+				newPin.save()
+					.then(this.showAllPins(reqSrc, res));
+				});
 	};
 
 	//Delete book from club's collection
@@ -189,71 +175,6 @@ function ClickHandler() {
 					.exec((err, result) => {
 						if (err) throw err;
 						res.json(result);
-					});
-			});
-	};
-
-	//Cancel trade request
-	this.cancelTradeRequest = function(canceller, reqObj, res, trade) {
-		let tradeReq = JSON.parse(reqObj);
-
-		/*For security, check whether trade request is being cancelled by
-		book owner (rejecting trade) or another user (cancelling request).*/
-
-		if (tradeReq.title) tradeReq.user = canceller;
-		else tradeReq.owner = canceller;
-
-		/*This is determined by the existence of tradeReq.title. If it exists,
-		the trade was cancelled by the requester. Otherwise, the trade was 
-		rejected by the book owner. 
-		The canceller param is req.session.user, so this check prevents
-		rogue API calls.*/
-
-		//First, cancel the request to the book owner
-		Users
-			.findOneAndUpdate({
-				'id': tradeReq.owner
-			}, {
-				$pull: {
-					'incomingRequests': {
-						'bookId': tradeReq.book,
-						'userId': tradeReq.user
-					}
-				}
-			}, {
-				projection: {
-					'_id': 0,
-					'__v': 0,
-					'incomingRequests._id': 0,
-					'outgoingRequests._id': 0
-				},
-				'new': true
-			})
-			//Then, update the requester's list of outgoing requests
-			.exec((err, result) => {
-				if (err) throw err;
-				Users
-					.findOneAndUpdate({
-						'id': tradeReq.user
-					}, {
-						$pull: {
-							'outgoingRequests': {
-								'bookId': tradeReq.book,
-								'userId': tradeReq.owner
-							}
-						}
-					}, {
-						projection: {
-							'_id': 0,
-							'__v': 0,
-							'incomingRequests._id': 0,
-							'outgoingRequests._id': 0
-						},
-						'new': true
-					})
-					.exec((err, result) => {
-						if (err) throw err;
-						if (!trade) res.json(result);
 					});
 			});
 	};

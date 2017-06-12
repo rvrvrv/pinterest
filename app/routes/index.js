@@ -50,8 +50,8 @@ module.exports = (app, passport) => {
 	});
 
 	//Add & remove pin routes
-	app.route('/api/pin/:pinId/:userId?')
+	app.route('/api/pin/:pinSrc/:pinCaption')
 		.post((req, res) => clickHandler.addToCollection(req, res))
-		.put((req, res) => clickHandler.addPin(req.params.pinId, req.session.user, res))
-		.delete((req, res) => clickHandler.delPin(req.params.pinId, req.session.user, res));
+		.put(isLoggedIn, (req, res) => clickHandler.addPin(req.session, decodeURIComponent(req.params.pinSrc), decodeURIComponent(req.params.pinCaption), res))
+		.delete((req, res) => clickHandler.delPin(req.params.pinSrc, req.session.user, res));
 };

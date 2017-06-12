@@ -4,11 +4,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Pin = new Schema({
-	title: String,
+	caption: String,
 	src: String,
-    owner: String,
-    likes: Number,
-    copies: Number
+    ownerId: Number,
+    ownerName: String,
+    likes: Number
 });
 
 module.exports = mongoose.model('Pin', Pin);
