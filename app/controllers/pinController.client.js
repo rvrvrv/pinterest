@@ -88,8 +88,10 @@ function performSave() {
 //Cancel pin creation (i.e. restore new-pin modal)
 function cancelPin() {
     $('#modal-newPin').modal('close');
-    $('input').val('');
-    $('input').removeClass('invalid valid');
-    $('#newPinImg').attr('src', '../public/img/galaxy.jpg');
+    setTimeout(() => { 
+        $('input').val('');
+        $('input').removeClass('invalid valid');
+        $('#newPinImg').attr('src', '../public/img/galaxy.jpg');
+    }, 1000);
     lastUrl = '';
 }
