@@ -73,22 +73,21 @@ function performSave() {
 	ajaxFunctions.ajaxRequest('PUT', apiUrl, (data) => {
 	    //Restore UI
 	    $('#modal-confirm').modal('close');
+	    cancelPin();
+	    Materialize.toast('New pin saved!', 3000);
 	    $('#modal-confirm a').removeClass('disabled');
 	    $('#modal-confirm h5').html('Are you sure?');
-	    cancelPin();
-	    Materialize.toast('New pin saved!');
+	    progress('hide');
 	    return console.log(data);
 	});
 }
 
 
-//Cancel pin creation
+//Cancel pin creation (i.e. restore new-pin modal)
 function cancelPin() {
-    //Restore UI to original state
+    $('#modal-newPin').modal('close');
     $('input').val('');
     $('input').removeClass('invalid valid');
     $('#newPinImg').attr('src', '../public/img/galaxy.jpg');
-    //Reset lastUrl and close the modal
     lastUrl = '';
-    $('#modal-newPin').modal('close');
 }
