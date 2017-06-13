@@ -52,10 +52,10 @@ function ClickHandler() {
 			})
 			.exec((err, result, raw) => {
 				if (err) return res.send('error');
-				console.log('*************RAW RESULT:', raw);
+				
 				//If pin already exists, exit and notify user
 				if (!raw) return res.send('exists');
-
+				
 				//Otherwise, save new pin to the overall collection
 				let newPin = new Pins({
 					'caption': reqCaption,
