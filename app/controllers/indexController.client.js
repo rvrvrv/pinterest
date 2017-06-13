@@ -3,13 +3,12 @@
 'use strict';
 
 $(document).ready(() => {
+    //Automatically load and display all pins
+    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', showAllPins));
+
     //Check to see if user is logged in. If so, logged-in view is generated.
     checkLoginStatus();
 
-    //Automatically show all pins on index page
-    //ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', getAllPins));
-    
-    
     //When navbar title is clicked, scroll to top of page
     $('.brand-logo').click(() => scroll(0, 0));
 });
@@ -20,14 +19,19 @@ function progress(operation) {
     else $('.progress').addClass('hidden');
 }
 
-//Retrieve and display all pins from DB
-function getAllPins(data) {
+//Display all pins as Isotope elements
+function showAllPins(data) {
+    progress('show');
     let pins = JSON.parse(data);
-    let masonryCode = '';
+    console.log(pins);
+    let isotopeCode = '';
     let modalCode = '';
     pins.forEach((e, i) => {
-        // masonryCode += `<a class="carousel-item tooltipped dynLink" data-book="${e.id}" data-link="#modal-${i}" data-tooltip="${e.title}" data-delay="600">
-        //         <img src="${e.thumbnail}"></a>`;
+        isotopeCode += `<div class="grid-item" data-owner="${e.ownerId}" data-src="${e.src}">
+                            <img src="${e.url}" alt="${e.caption}">
+                            <h6 class="center">${e.caption}</h6>
+                            <h6 class="right tooltipped" data-tooltip="Like this pin"><i class="fa fa-heart-o"></i>&nbsp;&nbsp;<span id="likes">${e.likes}</span></h6>
+                        </div>`;
         // modalCode += `
         //         <div id="modal-${i}" class="modal modal-book" data-book="${e.id}" data-owner="${e.owner}">
         //             <div class="modal-content">
@@ -53,9 +57,19 @@ function getAllPins(data) {
         //                     onclick="reqTrade(this, true)">Request Trade</a>
         //             </div>
         //         </div>`;
+        //When at the end of the list, initialize all generated code
+        if (i === pins.length - 1) {
+            $('.pins').append(isotopeCode);
+            $('.modals').append(modalCode);
+            $('.tooltipped').tooltip();
+            //Delay isotope initialization
+            setTimeout(() => {
+                $('.pins').isotope({
+                    itemSelector: '.grid-item'
+                });
+                $('.pins').addClass('fadeIn').removeClass('hidden');
+                progress('hide');
+            }, 1000);
+        }
     });
-    $('.pins').append(masonryCode);
-    $('.modals').append(modalCode);
-    $('.tooltipped').tooltip();
-    progress('hide');
 }

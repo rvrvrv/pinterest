@@ -40,9 +40,9 @@ module.exports = (app, passport) => {
 		})(req, res, next);
 	});
 
-	//Display all pins in collection
+	//Retrieve all pins in collection
 	app.route('/api/allpins/')
-		.get((req, res) => clickHandler.showAllpins(req, res));
+		.get((req, res) => clickHandler.getAllPins(req, res));
 
 	//Get user information
 	app.get('/api/:id?', isLoggedIn, (req, res) => {

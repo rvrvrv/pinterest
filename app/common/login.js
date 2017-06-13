@@ -8,7 +8,6 @@ function checkLoginStatus() {
         //If user is not logged in, show the login button
         if (res === 'no') {
             $('.login-btn').removeClass('hidden');
-            progress('hide');
         }
         else loggedIn(JSON.parse(res));
     }));

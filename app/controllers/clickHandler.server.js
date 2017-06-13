@@ -20,15 +20,14 @@ function ClickHandler() {
 			});
 	};
 
-	//Retrieve all pins in club's collection
-	this.showAllPins = function(req, res) {
+	//Retrieve all pins in overall collection
+	this.getAllPins = function(req, res) {
 		Pins
 			.find({}, {
 				'_id': 0
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				console.log(result);
 				res.json(result);
 			});
 	};
@@ -73,7 +72,7 @@ function ClickHandler() {
 			});
 	};
 
-	//Delete book from club's collection
+	//Delete pin from overall collection
 	this.delFromCollection = function(reqBook, reqOwner, res) {
 		Pins
 			.remove({

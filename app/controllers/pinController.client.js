@@ -89,7 +89,6 @@ function performSave() {
 	});
 }
 
-
 //Reset the new-pin modal
 function resetPinModal() {
     $('#modal-newPin').modal('close');
