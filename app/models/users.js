@@ -9,7 +9,7 @@ var User = new Schema({
     img: String,
     pins: [ String ],
     likes: [{
-        src: String,
+        url: String,
         ownerId: String
     }]
 });

@@ -32,37 +32,43 @@ function ClickHandler() {
 				res.json(result);
 			});
 	};
-	
+
 	//Add pin to user's list and overall collection
-	this.addPin = function(reqSess, reqSrc, reqCaption, res) {
+	this.addPin = function(reqSess, reqUrl, reqCaption, res) {
 		//First, add pin to user's list
 		Users
 			.findOneAndUpdate({
 				'id': reqSess.userId,
 			}, {
 				$addToSet: {
-					'pins': reqSrc
+					'pins': reqUrl
 				},
 			}, {
 				projection: {
 					'_id': 0,
 					'__v': 0,
 				},
-				new: true
+				rawResult: true
 			})
-			.exec((err, result) => {
-				if (err) res.json('error');
-				//Then, add to club collection
+			.exec((err, result, raw) => {
+				if (err) return res.send('error');
+				console.log('*************RAW RESULT:', raw);
+				//If pin already exists, exit and notify user
+				if (!raw) return res.send('exists');
+
+				//Otherwise, save new pin to the overall collection
 				let newPin = new Pins({
 					'caption': reqCaption,
-					'src': reqSrc,
+					'url': reqUrl,
 					'ownerId': reqSess.userId,
-					'ownerName': reqSess.userName,
-					'likes': 0
+					'ownerName': reqSess.userName
 				});
 				newPin.save()
-					.then(res.json(newPin));
-				});
+					.then(res.json({
+						'caption': reqCaption,
+						'url': reqUrl
+					}));
+			});
 	};
 
 	//Delete book from club's collection

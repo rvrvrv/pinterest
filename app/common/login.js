@@ -19,6 +19,7 @@ function loggedIn(user) {
     console.log(user);
     //Store user's info
     localStorage.setItem('rv-pinterest-id', user.id);
+    localStorage.setItem('rv-pinterest-name', user.name);
 
     //Generate user info in navbar
     $('#userInfo').html(`
@@ -73,14 +74,14 @@ function loggedIn(user) {
             <div class="modal-footer valign-wrapper">
                 <div class="row center">
                     <a class="waves-effect waves-green btn-flat" id="saveBtn" onclick="savePin()">Save Pin</a>
-                    <a class="waves-effect waves-red btn-flat" onclick="cancelPin()">Cancel</a>
+                    <a class="waves-effect waves-red btn-flat" onclick="resetPinModal()">Cancel</a>
                 </div>
             </div>
         </div>
         <div id="modal-confirm" class="modal">
             <div class="modal-content">
                 <div class="row center">
-                    <h5>Are you sure?</h5>
+                    <h5>Are you sure you would like to save this pin?</h5>
                 </div>
             </div>
             <div class="modal-footer valign-wrapper">

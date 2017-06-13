@@ -43,7 +43,7 @@ function savePin() {
     if (!caption || $('#newPinCaption').hasClass('invalid')) return Materialize.toast('Please enter a valid caption for your pin.', 3000, 'error');
     if (!lastUrl) return Materialize.toast('Please enter a valid image URL.', 3000, 'error');
 
-    /*If fields appear to be valid, wait for 2.5 seconds, and then ask for confirmation 
+    /*If fields appear to be valid, wait for 0.5 seconds, and then ask for confirmation 
     before submission. This allows for additional URL validation.*/
     let $btn = $('#saveBtn');
     $btn.html('<i class="fa fa-circle-o-notch fa-spin fa-3x"></i>');
@@ -53,15 +53,15 @@ function savePin() {
         if (lastUrl) $('#modal-confirm').modal('open');
         $btn.html('Save Pin');
         $btn.removeClass('disabled');
-    }, 2500);
+    }, 500);
 }
 
 //After confirmation, save pin to the DB
 function performSave() {
     let pinCaption = $('#newPinCaption');
-    let pinSrc = $('#newPinUrl');
+    let pinUrl = $('#newPinUrl');
     //Final validation check
-    if (pinCaption.hasClass('invalid') || pinSrc.hasClass('invalid')) return $('#modal-confirm').modal('close');
+    if (pinCaption.hasClass('invalid') || pinUrl.hasClass('invalid')) return $('#modal-confirm').modal('close');
     
 	//Update UI while save is performed
 	progress('show');
@@ -69,24 +69,28 @@ function performSave() {
 	$('#modal-confirm h5').html('Saving...');
 	
 	//Update the database (add pin to the user's collection)
-	let apiUrl = `/api/pin/${encodeURIComponent(pinSrc.val())}/${encodeURIComponent(pinCaption.val())}`;
+	let apiUrl = `/api/pin/${encodeURIComponent(pinUrl.val())}/${encodeURIComponent(pinCaption.val())}`;
 	ajaxFunctions.ajaxRequest('PUT', apiUrl, (data) => {
-	    //Restore UI
+	    //Regardless of result, close and restore the confirmation modal
 	    $('#modal-confirm').modal('close');
-	    cancelPin();
 	    setTimeout(() => { 
 	        $('#modal-confirm a').removeClass('disabled');
-	        $('#modal-confirm h5').html('Are you sure?');
+	        $('#modal-confirm h5').html('Are you sure you would like to save this pin?');
 	    }, 1000);
 	    progress('hide');
+        //If an error occured, notify the user
+        if (data === 'error') return Materialize.toast('An error has occurred. Please try again later.', 3000, 'error');
+        if (data === 'exists') return Materialize.toast('You\'ve already pinned this image!', 3000, 'error');
+        //Otherwise, close the modal and update the UI
+        resetPinModal();
+        let result = JSON.parse(data);
 	    Materialize.toast('New pin saved!', 3000);
-	    console.log(data);
 	});
 }
 
 
-//Cancel pin creation (i.e. restore new-pin modal)
-function cancelPin() {
+//Reset the new-pin modal
+function resetPinModal() {
     $('#modal-newPin').modal('close');
     setTimeout(() => { 
         $('input').val('');

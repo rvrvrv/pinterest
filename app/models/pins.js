@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var Pin = new Schema({
     caption: String,
-    src: String,
+    url: String,
     ownerId: String,
     ownerName: String,
     likes: {
