@@ -51,7 +51,7 @@ function ClickHandler() {
 				new: true
 			})
 			.exec((err, result) => {
-				if (err) throw err;
+				if (err) res.json('error');
 				//Then, add to club collection
 				let newPin = new Pins({
 					'caption': reqCaption,

@@ -4,13 +4,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var User = new Schema({
-    id: Number,
+    id: String,
     name: String,
     img: String,
     pins: [ String ],
     likes: [{
         src: String,
-        ownerId: Number
+        ownerId: String
     }]
 });
 
