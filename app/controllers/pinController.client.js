@@ -84,6 +84,7 @@ function performSave() {
         //Otherwise, close the modal and update the UI
         resetPinModal();
         let result = JSON.parse(data);
+        console.log(result);
 	    Materialize.toast('New pin saved!', 3000);
 	});
 }

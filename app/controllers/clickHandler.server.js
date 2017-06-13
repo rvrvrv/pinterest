@@ -35,39 +35,41 @@ function ClickHandler() {
 
 	//Add pin to user's list and overall collection
 	this.addPin = function(reqSess, reqUrl, reqCaption, res) {
-		//First, add pin to user's list
+		//First, ensure pin doesn't already exist in user's list
 		Users
-			.findOneAndUpdate({
+			.findOne({
 				'id': reqSess.userId,
+				'pins': reqUrl
 			}, {
-				$addToSet: {
-					'pins': reqUrl
-				},
-			}, {
-				projection: {
-					'_id': 0,
-					'__v': 0,
-				},
-				rawResult: true
-			})
-			.exec((err, result, raw) => {
+				'_id': 0,
+				'__v': 0,
+			}, (err, result) => {
 				if (err) return res.send('error');
-				
-				//If pin already exists, exit and notify user
-				if (!raw) return res.send('exists');
-				
-				//Otherwise, save new pin to the overall collection
-				let newPin = new Pins({
-					'caption': reqCaption,
-					'url': reqUrl,
-					'ownerId': reqSess.userId,
-					'ownerName': reqSess.userName
-				});
-				newPin.save()
-					.then(res.json({
-						'caption': reqCaption,
-						'url': reqUrl
-					}));
+				if (result) return res.send('exists');
+				//If pin doesn't exist, add it to user's list
+				Users
+					.updateOne({
+						'id': reqSess.userId
+					}, {
+						$addToSet: {
+							'pins': reqUrl
+						}
+					})
+					.exec((err, result2) => {
+						if (err) return res.send('error');
+						//Add pin to overall collection
+						let newPin = new Pins({
+							'caption': reqCaption,
+							'url': reqUrl,
+							'ownerId': reqSess.userId,
+							'ownerName': reqSess.userName
+						});
+						newPin.save()
+							.then(res.json({
+								'caption': reqCaption,
+								'url': reqUrl
+							}));
+					});
 			});
 	};
 
