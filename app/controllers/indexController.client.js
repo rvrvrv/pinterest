@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, checkLoginStatus, progress */
+/* global $, ajaxFunctions, checkLoginStatus */
 'use strict';
 
 $(document).ready(() => {
@@ -30,7 +30,7 @@ function showAllPins(data) {
         isotopeCode += `<div class="grid-item" data-owner="${e.ownerId}" data-src="${e.src}">
                             <img src="${e.url}" alt="${e.caption}">
                             <h6 class="center">${e.caption}</h6>
-                            <h6 class="right tooltipped" data-tooltip="Like this pin"><i class="fa fa-heart-o"></i>&nbsp;&nbsp;<span id="likes">${e.likes}</span></h6>
+                            <a class="dynLink"><h6 class="right tooltipped" data-tooltip="Like this pin"><i class="fa fa-heart-o"></i>&nbsp;&nbsp;<span id="likes">${e.likes}</span></h6></a>
                         </div>`;
         // modalCode += `
         //         <div id="modal-${i}" class="modal modal-book" data-book="${e.id}" data-owner="${e.owner}">
@@ -73,3 +73,4 @@ function showAllPins(data) {
         }
     });
 }
+

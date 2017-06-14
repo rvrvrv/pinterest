@@ -1,6 +1,12 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, FB, localStorage, Materialize, progress, tradeRequest */
+/* global $, ajaxFunctions, FB, localStorage, Materialize, progress */
 'use strict';
+
+
+//Like (or unlike) a pin
+function likePin(link) {
+    Materialize.toast('Liked it!');
+}
 
 //Handle 'Accept Trade' / 'Reject Trade' link click
 function answerTrade(link, accept) {

@@ -93,8 +93,6 @@ function loggedIn(user) {
     $('#newPinUrl').focusout(() => updateImg());
     $('.modal').modal();
     
-    
-
     //Activate logout link
     $('#logoutBtn').click(() => {
         localStorage.removeItem('rv-pinterest-id');
@@ -106,6 +104,8 @@ function loggedIn(user) {
         let link = $(this).data('link');
         if (link.includes('modal'))
             $(this).click(() => $(link).modal('open'));
+        else if (link.includes('like'))
+            $(this.click(() => likePin(this)));
     });
 
     //Remove login button
