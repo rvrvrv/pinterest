@@ -69,6 +69,7 @@ h5 {
     color: #000;
 }
 
+
 /* Isotope grid */
 
 .pins {
@@ -97,6 +98,7 @@ h5 {
     padding-right: 10px;
     cursor: pointer;
 }
+
 
 /* Pin creation modal and form */
 
@@ -150,6 +152,15 @@ h5 {
     margin-top: 5px;
 }
 
+
+/* For mobile devices */
+
+@media only screen and (max-device-width: 640px) {
+    .grid-item img {
+        max-width: 125px;
+        max-height: 200px;
+    }
+}
 
 /* Animation */
 
