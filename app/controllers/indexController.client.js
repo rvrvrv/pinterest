@@ -71,7 +71,7 @@ function showAllPins(data) {
                 $('#loading').fadeOut().remove();
                 $('body').css('overflow', 'initial');
                 progress('hide');
-            }, 100);
+            }, 1000);
         }
     });
 }
