@@ -62,14 +62,16 @@ function showAllPins(data) {
             $('.pins').append(isotopeCode);
             $('.modals').append(modalCode);
             $('.tooltipped').tooltip();
-            //Delay isotope initialization
+            //Smooth entrance
             setTimeout(() => {
                 $('.pins').isotope({
                     itemSelector: '.grid-item'
                 });
                 $('.pins').addClass('fadeIn').removeClass('hidden');
+                $('#loading').fadeOut().remove();
+                $('body').css('overflow', 'initial');
                 progress('hide');
-            }, 1000);
+            }, 100);
         }
     });
 }
