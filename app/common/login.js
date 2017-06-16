@@ -102,12 +102,17 @@ function loggedIn(user) {
     //Activate dynamic links for logged-in user
     $('.dynLink').each(function() {
         let link = $(this).data('link');
+        //Activate modal links (to view pins)
         if (link.includes('modal'))
             $(this).click(() => $(link).modal('open'));
+        //Activate like links
         else if (link.includes('like'))
+            //Remove 'Please login' message
+            $(this.prop('onclick', null));
+            //Activate like functionality
             $(this.click(() => likePin(this)));
     });
-
+    
     //Remove login button
     $('.login-btn').remove();
     progress('hide');
