@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, checkLoginStatus */
+/* global $, ajaxFunctions, checkLoginStatus, Materialize */
 'use strict';
 
 $(document).ready(() => {
@@ -19,6 +19,11 @@ function progress(operation) {
     else $('.progress').addClass('hidden');
 }
 
+//Show an error message
+function errorMsg(message) {
+    Materialize.toast(message, 3000, 'error');
+}
+
 //Display all pins as Isotope elements
 function showAllPins(data) {
     progress('show');
@@ -30,7 +35,13 @@ function showAllPins(data) {
         isotopeCode += `<div class="grid-item">
                             <img src="${e.url}" alt="${e.caption}">
                             <h6 class="center">${e.caption}</h6>
-                            <a class="dynLink" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" onclick="Materialize.toast('Please log in to like ${e.caption}', 3000, 'error')"><h6 class="right tooltipped" data-tooltip="Like this pin"><i class="fa fa-heart-o"></i>&nbsp;&nbsp;<span id="likes">${e.likes}</span></h6></a>
+                            <h6 class="right tooltipped" data-tooltip="Like this pin">
+                                <a class="dynLink" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" 
+                                onclick="errorMsg('Please log in to like ${e.caption}')">
+                                    <i class="fa fa-heart-o"></i>&nbsp;&nbsp;
+                                </a>
+                                <span class="likes">${e.likes}</span>
+                            </h6>
                         </div>`;
         // modalCode += `
         //         <div id="modal-${i}" class="modal modal-book" data-book="${e.id}" data-owner="${e.owner}">
@@ -69,7 +80,6 @@ function showAllPins(data) {
                 });
                 $('.pins').addClass('fadeIn').removeClass('hidden');
                 $('#loading').fadeOut().remove();
-                $('body').css('overflow', 'initial');
                 progress('hide');
             }, 1000);
         }

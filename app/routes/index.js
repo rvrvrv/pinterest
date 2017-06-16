@@ -29,7 +29,7 @@ module.exports = (app, passport) => {
 	app.get('/auth/twitter/callback', (req, res, next) => {
 		passport.authenticate('twitter', (err, user) => {
 			if (err) return next(err);
-			if (!user) return res.send('Error');
+			if (!user) return res.send('error');
 			req.logIn(user, err => {
 				if (err) return next(err);
 				req.session.passport = user.id;
@@ -48,7 +48,12 @@ module.exports = (app, passport) => {
 	app.get('/api/:id?', isLoggedIn, (req, res) => {
 		clickHandler.loadUser(req, res);
 	});
-
+	
+	//Like & unlike pin routes
+	app.route('/api/like/:obj')
+		.put(isLoggedIn, (req, res) => clickHandler.likePin(req.session.userId, req.params.obj, res))
+		.delete(isLoggedIn, (req, res) => clickHandler.unlikePin(req.session.userId, req.params.obj, res));
+		
 	//Add & remove pin routes
 	app.route('/api/pin/:pinUrl/:pinCaption')
 		.post((req, res) => clickHandler.addToCollection(req, res))

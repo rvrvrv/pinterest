@@ -1,27 +1,46 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, FB, localStorage, Materialize, progress */
+/* global $, ajaxFunctions, errorMsg, localStorage, Materialize, progress */
 'use strict';
 
 
 //Like (or unlike) a pin
-function likePin(link) {
-    Materialize.toast('Liked it!');
+function likePin(link, unlike) {
+    //Store pin information for API call
+    let likeReq = {
+        url: encodeURIComponent($(link).data('url')),
+        owner: $(link).data('owner')
+    };
+    console.log(link);
+    //Make the appropriate API call
+    let method = unlike ? 'DELETE' : 'PUT';
+    ajaxFunctions.ajaxRequest(method, `/api/like/${JSON.stringify(likeReq)}`, (res) => {
+        console.log(res);
+        //Handle errors
+        if (res === 'error') return errorMsg('An error occurred while trying to like the pin.');
+        if (res === 'exists') return errorMsg('You already like this pin!');
+        let likeCount = $(link).find('.likes');
+        //If like is successful, notify the user and update UI
+        Materialize.toast('Liked it!', 2000);
+        likeCount.html(`${+likeCount.html()+1}`);
+        $(link).find('i').removeClass('fa-heart-o').addClass('fa-heart');
+    });
+
 }
 
 //Handle 'Accept Trade' / 'Reject Trade' link click
 function answerTrade(link, accept) {
     progress('show');
-    
+
     //Store book trade information
     let tradeRequest = {
         book: $(link).data('book'),
         owner: localStorage.getItem('rv-bookclub-id'),
         user: $(link).data('user')
     };
-    
+
     //Make the appropriate API call
     let method = accept ? 'PUT' : 'DELETE';
-    
+
     ajaxFunctions.ajaxRequest(method, `/api/trade/${JSON.stringify(tradeRequest)}`, (res) => {
         //After DB changes are complete, update UI
         if (accept) {
@@ -44,13 +63,13 @@ function answerTrade(link, accept) {
 
 //Update Trade request button and collapsible
 function tradeReqUI(link, requested) {
-    
+
     //Store book information
     let title = $(link).data('title');
     let bookId = $(link).data('book');
     let owner = $(link).data('owner');
     let modalLink = `#modal-${$(link).data('modal')}`;
-    
+
     if (requested) {
         //Update link in book modal
         $(link).html('Cancel Request');
@@ -63,7 +82,8 @@ function tradeReqUI(link, requested) {
             <a class="collection-item blue-text tooltipped" data-book="${bookId}" 
             data-owner="${owner}" data-tooltip="View ${title} and/or cancel request"
             onclick="$('${modalLink}').modal('open');">${title}</a>`);
-    } else {
+    }
+    else {
         //Update link in book modal
         $(link).html('Request Trade');
         $(link).data('tooltip', `Request ${title}`);
@@ -78,7 +98,7 @@ function tradeReqUI(link, requested) {
 
 //Handle 'Request Trade' / 'Cancel Request' link click
 function reqTrade(link, interested) {
-    
+
     //Store book trade information
     let tradeRequest = {
         book: $(link).data('book'),
@@ -127,5 +147,5 @@ function requestCount(reqType, num) {
         if (count === 0)
             $(`#incomingCount`).removeClass('new light-blue darken-3');
     }
-    
+
 }

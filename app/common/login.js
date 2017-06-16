@@ -108,9 +108,10 @@ function loggedIn(user) {
         //Activate like links
         else if (link.includes('like'))
             //Remove 'Please login' message
-            $(this.prop('onclick', null));
+            $(this).prop('onclick', null); //For IE compatibility
+            $(this).removeAttr('onclick');
             //Activate like functionality
-            $(this.click(() => likePin(this)));
+            $(this).click(() => likePin(this));
     });
     
     //Remove login button

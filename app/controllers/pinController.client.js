@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, localStorage, Materialize, progress */
+/* global $, ajaxFunctions, errorMsg, Materialize, progress */
 'use strict';
 
 let lastUrl;
@@ -9,7 +9,7 @@ function badImg(url) {
     //Insert placeholder image
     $('#newPinImg').attr('src', '../public/img/badImg.jpg');
     //Notify the user
-    Materialize.toast(`No image found at '${url}'`, 3000, 'error');
+    errorMsg(`No image found at '${url}'`);
     $('#newPinUrl').removeClass('valid').addClass('invalid');
     //Prevent user from saving a bad image URL
     lastUrl = false;
@@ -40,8 +40,8 @@ function updateImg() {
 function savePin() {
     let caption = $('#newPinCaption').val();
     //Check for blank/invalid fields
-    if (!caption || $('#newPinCaption').hasClass('invalid')) return Materialize.toast('Please enter a valid caption for your pin.', 3000, 'error');
-    if (!lastUrl) return Materialize.toast('Please enter a valid image URL.', 3000, 'error');
+    if (!caption || $('#newPinCaption').hasClass('invalid')) return errorMsg('Please enter a valid caption for your pin.');
+    if (!lastUrl) return errorMsg('Please enter a valid image URL.');
 
     /*If fields appear to be valid, wait for 0.5 seconds, and then ask for confirmation 
     before submission. This allows for additional URL validation.*/

@@ -14,7 +14,7 @@ function ClickHandler() {
 				'_id': 0,
 				'__v': 0,
 			}, (err, result) => {
-				if (err) throw err;
+				if (err) return res.send('error');
 				if (!result) return res.send('no');
 				res.json(result);
 			});
@@ -27,7 +27,7 @@ function ClickHandler() {
 				'_id': 0
 			})
 			.exec((err, result) => {
-				if (err) throw err;
+				if (err) return res.send('error');
 				res.json(result);
 			});
 	};
@@ -54,7 +54,7 @@ function ClickHandler() {
 							'pins': reqUrl
 						}
 					})
-					.exec((err, result2) => {
+					.exec((err, result) => {
 						if (err) return res.send('error');
 						//Add pin to overall collection
 						let newPin = new Pins({
@@ -132,57 +132,57 @@ function ClickHandler() {
 			});
 	};
 
-	//Make trade request to book owner
-	this.makeTradeRequest = function(requester, reqObj, res) {
-		let tradeReq = JSON.parse(reqObj);
-
-		//First, submit the request to the book owner
+	//Like a pin
+	this.likePin = function(requester, reqObj, res) {
+		let likeReq = JSON.parse(reqObj);
+		likeReq.url = decodeURIComponent(likeReq.url);
+		//First, ensure user doesn't already like the pin
 		Users
-			.findOneAndUpdate({
-				'id': tradeReq.owner
+			.findOne({
+				'id': requester,
+				'likes.url': likeReq.url,
+				'likes.ownerId': likeReq.owner
 			}, {
-				$addToSet: {
-					'incomingRequests': {
-						'bookId': tradeReq.book,
-						'userId': requester,
-						'title': tradeReq.title
-					}
-				}
-			}, {
-				projection: {
-					'_id': 0,
-					'__v': 0,
-					'incomingRequests._id': 0,
-					'outgoingRequests._id': 0
-				},
-				'new': true
-			})
-			//Then, update the requester's list of outgoing requests
-			.exec((err, result) => {
-				if (err) throw err;
-				Users
+				'_id': 0,
+				'__v': 0,
+			}, (err, result) => {
+				if (err) return res.send('error');
+				if (result) return res.send('exists');
+				//If pin isn't already liked, continue and like it
+				Pins
 					.findOneAndUpdate({
-						'id': requester
+						'url': likeReq.url,
+						'ownerId': likeReq.owner
 					}, {
-						$addToSet: {
-							'outgoingRequests': {
-								'bookId': tradeReq.book,
-								'userId': tradeReq.owner,
-								'title': tradeReq.title
-							}
-						},
-					}, {
-						projection: {
-							'_id': 0,
-							'__v': 0,
-							'incomingRequests._id': 0,
-							'outgoingRequests._id': 0
-						},
-						'new': true
+						$inc: {
+							'likes': 1
+						}
 					})
+					//Then, update the requester's list of liked pins
 					.exec((err, result) => {
-						if (err) throw err;
-						res.json(result);
+						if (err) return res.send('error');
+						Users
+							.findOneAndUpdate({
+								'id': requester
+							}, {
+								$addToSet: {
+									'likes': {
+										'url': likeReq.url,
+										'ownerId': likeReq.owner
+									}
+								},
+							}, {
+								projection: {
+									'_id': 0,
+									'__v': 0,
+									'likes._id': 0,
+								},
+								'new': true
+							})
+							.exec((err, result) => {
+								if (err) res.send('error');
+								res.json(result);
+							});
 					});
 			});
 	};
