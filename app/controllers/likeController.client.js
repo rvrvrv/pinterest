@@ -19,12 +19,31 @@ function likePin(link, unlike) {
         if (res === 'error') return errorMsg('An error occurred while trying to like the pin.');
         if (res === 'exists') return errorMsg('You already like this pin!');
         let likeCount = $(link).find('.likes');
+        console.log(likeCount);
         //If like is successful, notify the user and update UI
         Materialize.toast('Liked it!', 2000);
-        likeCount.html(`${+likeCount.html()+1}`);
-        $(link).find('i').removeClass('fa-heart-o').addClass('fa-heart');
+        likeCount.html(`${+likeCount.text() + 1}`);
+        likeBtnSwitch(link, true);
     });
 
+}
+
+//Switch like button (to like or unlike)
+function likeBtnSwitch(link, makeUnlike) {
+    if (makeUnlike) {
+        $(link).tooltip('remove');
+        $(link).attr('data-tooltip', 'Unlike this pin');
+        $(link).tooltip();
+        $(link).find('i').removeClass('fa-heart-o').addClass('fa-heart');
+        $(link).click(() => likePin(this, true));
+    }
+    else {
+        $(link).tooltip('remove');
+        $(link).attr('data-tooltip', 'Like this pin');
+        $(link).tooltip();
+        $(link).find('i').removeClass('fa-heart').addClass('fa-heart-o');
+        $(link).click(() => likePin(this));
+    }
 }
 
 //Handle 'Accept Trade' / 'Reject Trade' link click

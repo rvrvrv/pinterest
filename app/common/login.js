@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, localStorage, location, progress, updateImg */
+/* global $, ajaxFunctions, likeBtnSwitch, likePin, localStorage, location, progress, updateImg */
 'use strict';
 
 //Check for login status
@@ -106,12 +106,19 @@ function loggedIn(user) {
         if (link.includes('modal'))
             $(this).click(() => $(link).modal('open'));
         //Activate like links
-        else if (link.includes('like'))
+        else if (link.includes('like')) {
             //Remove 'Please login' message
             $(this).prop('onclick', null); //For IE compatibility
             $(this).removeAttr('onclick');
-            //Activate like functionality
             $(this).click(() => likePin(this));
+        }
+    });
+    
+    //Update and activate like buttons
+    user.likes.forEach(e => {
+        let likedPin = $(`a[data-owner="${e.ownerId}"][data-url="${e.url}"]`);
+        //If user likes the pin, update the UI
+        if (likedPin) likeBtnSwitch(likedPin, true);
     });
     
     //Remove login button

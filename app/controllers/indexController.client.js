@@ -6,9 +6,6 @@ $(document).ready(() => {
     //Automatically load and display all pins
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', showAllPins));
 
-    //Check to see if user is logged in. If so, logged-in view is generated.
-    checkLoginStatus();
-
     //When navbar title is clicked, scroll to top of page
     $('.brand-logo').click(() => scroll(0, 0));
 });
@@ -35,11 +32,10 @@ function showAllPins(data) {
         isotopeCode += `<div class="grid-item">
                             <img src="${e.url}" alt="${e.caption}">
                             <h6 class="center">${e.caption}</h6>
-                            <h6 class="right>
+                            <h6 class="right">
                                 <a class="dynLink tooltipped" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" 
                                 onclick="errorMsg('Please log in to like ${e.caption}')" data-tooltip="Like this pin">
-                                <i class="fa fa-heart-o"></i>&nbsp;
-                                </a>
+                                <i class="fa fa-heart-o"></i>&nbsp;</a>
                                 <span class="likes">${e.likes}</span>
                             </h6>
                         </div>`;
@@ -70,6 +66,8 @@ function showAllPins(data) {
         //         </div>`;
         //When at the end of the list, initialize all generated code
         if (i === pins.length - 1) {
+            //Check to see if user is logged in. If so, logged-in view is generated.
+            checkLoginStatus();
             $('.pins').append(isotopeCode);
             $('.modals').append(modalCode);
             $('.tooltipped').tooltip();
