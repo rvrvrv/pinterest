@@ -28,17 +28,17 @@ function errorMsg(message) {
 function showAllPins(data) {
     progress('show');
     let pins = JSON.parse(data);
-    console.log(pins);
     let isotopeCode = '';
     let modalCode = '';
     pins.forEach((e, i) => {
         isotopeCode += `<div class="grid-item">
                             <img src="${e.url}" alt="${e.caption}">
                             <h6 class="center">${e.caption}</h6>
-                            <h6 class="right tooltipped" data-tooltip="Like this pin">
-                                <a class="dynLink" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" 
-                                onclick="errorMsg('Please log in to like ${e.caption}')">
-                                    <i class="fa fa-heart-o"></i>&nbsp;&nbsp;
+                            <h6 class="right">
+                                <a class="dynLink tooltipped" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" 
+                                onclick="errorMsg('Please log in to like ${e.caption}')
+                                data-tooltip="Like this pin">
+                                    <i class="fa fa-heart-o"></i>&nbsp;
                                 </a>
                                 <span class="likes">${e.likes}</span>
                             </h6>
@@ -85,4 +85,3 @@ function showAllPins(data) {
         }
     });
 }
-

@@ -3,6 +3,9 @@
 }
 
 body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
     background: #fffafa;
     color: #003;
     overflow-x: hidden;
@@ -218,11 +221,24 @@ h5 {
 }
 
 
-/* For mobile devices */
+/* Grid for mobile devices */
 
 @media only screen and (max-device-width: 640px) {
+    .pins {
+        display: block;
+        margin: 10px auto 0 auto;
+    }
     .grid-item img {
-        max-width: 125px;
         max-height: 200px;
+    }
+    .grid-item,
+    .grid-item img {
+        max-width: 100px;
+    }
+    .grid-item .center {
+        font-size: .85rem;
+    }
+    .grid-item .right {
+        padding-right: 3px;
     }
 }
