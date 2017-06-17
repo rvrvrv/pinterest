@@ -14,11 +14,10 @@ function likePin(link, unlike) {
     //Make the appropriate API call
     let method = unlike ? 'DELETE' : 'PUT';
     ajaxFunctions.ajaxRequest(method, `/api/like/${JSON.stringify(likeReq)}`, (res) => {
-        console.log(res);
         //Handle errors
         if (res === 'error') return errorMsg('An error occurred while trying to like the pin.');
         if (res === 'exists') return errorMsg('You already like this pin!');
-        let likeCount = $(link).find('.likes');
+        let likeCount = $(link).next();
         console.log(likeCount);
         //If like is successful, notify the user and update UI
         Materialize.toast('Liked it!', 2000);
@@ -30,6 +29,7 @@ function likePin(link, unlike) {
 
 //Switch like button (to like or unlike)
 function likeBtnSwitch(link, makeUnlike) {
+    $(link).unbind('click');
     if (makeUnlike) {
         $(link).tooltip('remove');
         $(link).attr('data-tooltip', 'Unlike this pin');

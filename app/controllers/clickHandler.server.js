@@ -187,6 +187,49 @@ function ClickHandler() {
 			});
 	};
 
+	//Unlike a pin
+	this.unlikePin = function(requester, reqObj, res) {
+		let likeReq = JSON.parse(reqObj);
+		likeReq.url = decodeURIComponent(likeReq.url);
+		//First, remove like from the requester's list
+		Users
+			.findOneAndUpdate({
+				'id': requester
+			}, {
+				$pull: {
+					'likes': {
+						'url': likeReq.url,
+						'ownerId': likeReq.owner
+					}
+				},
+			}, {
+				projection: {
+					'_id': 0,
+					'__v': 0,
+					'likes._id': 0,
+				},
+				'new': true
+			})
+			.exec((err, result) => {
+				if (err) return res.send('error');
+				if (!result) return res.send('no');
+				//Then, decrease the pin's like counts
+				Pins
+					.findOneAndUpdate({
+						'url': likeReq.url,
+						'ownerId': likeReq.owner
+					}, {
+						$inc: {
+							'likes': -1
+						}
+					})
+					.exec((err, result) => {
+						if (err) res.send('error');
+						res.json(result);
+					});
+			});
+	};
+
 	//Accept a trade
 	this.acceptTrade = function(bookOwner, reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
