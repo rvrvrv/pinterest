@@ -43,6 +43,20 @@ function loggedIn(user) {
         stopPropagation: false
     });
 
+    //Generate pin-filter menu
+    $('.pins').before(`
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs tabs-fixed-width">
+                        <li class="tab col s4"><a class="active" id="allBtn">All Pins</a></li>
+                        <li class="tab col s4"><a id="yoursBtn">Yours</a></li>
+                        <li class="tab col s4"><a id="likedBtn">Liked</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>`);
+
     //Generate 'New Pin' modals
     $('.modals').append(`
         <div id="modal-newPin" class="modal">
@@ -92,7 +106,7 @@ function loggedIn(user) {
         </div>`);
     $('#newPinUrl').focusout(() => updateImg());
     $('.modal').modal();
-    
+
     //Activate logout link
     $('#logoutBtn').click(() => {
         localStorage.removeItem('rv-pinterest-id');
@@ -113,14 +127,14 @@ function loggedIn(user) {
             $(this).click(() => likePin(this));
         }
     });
-    
+
     //Update and activate like buttons
     user.likes.forEach(e => {
         let likedPin = $(`a[data-owner="${e.ownerId}"][data-url="${e.url}"]`);
         //If user likes the pin, update the UI
         if (likedPin) likeBtnSwitch(likedPin, true);
     });
-    
+
     //Remove login button
     $('.login-btn').remove();
     progress('hide');
