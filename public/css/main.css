@@ -90,7 +90,7 @@ h5 {
 
 .grid-item * {
     color: #fff;
-    transition: all 0.3s ease-in-out;
+    transition: text-shadow 0.3s ease-in-out;
 }
 
 .grid-item img {
@@ -117,6 +117,9 @@ h5 {
     text-shadow: 0 0 5px #fff, 0 0 15px #f6b;
 }
 
+.grid-item i:active{
+    transform: scale(1.05);
+}
 
 /* Pin creation modal and form */
 

@@ -107,7 +107,6 @@ function loggedIn(user) {
             $(this).click(() => $(link).modal('open'));
         //Activate like links
         else if (link.includes('like')) {
-            console.log('this at load:', this);
             //Remove 'Please login' message
             $(this).prop('onclick', null); //For IE compatibility
             $(this).removeAttr('onclick');

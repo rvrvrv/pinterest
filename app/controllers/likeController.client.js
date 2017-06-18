@@ -5,7 +5,7 @@
 
 //Like (or unlike) a pin
 function likePin(link, unlike) {
-    return (console.log('link at likePin: ', link));
+    console.log('link at likePin: ', link);
     //Store pin information for API call
     let likeReq = {
         url: encodeURIComponent($(link).data('url')),
@@ -47,14 +47,14 @@ function likeBtnSwitch(link, makeUnlike) {
         $(link).attr('data-tooltip', 'Unlike this pin');
         $(link).tooltip();
         $(link).find('i').removeClass('fa-heart-o').addClass('fa-heart');
-        $(link).click(() => likePin(this, true));
+        $(link).click(() => likePin($(link), true));
     }
     else {
         $(link).tooltip('remove');
         $(link).attr('data-tooltip', 'Like this pin');
         $(link).tooltip();
         $(link).find('i').removeClass('fa-heart').addClass('fa-heart-o');
-        $(link).click(() => likePin(this));
+        $(link).click(() => likePin($(link)));
     }
 }
 
