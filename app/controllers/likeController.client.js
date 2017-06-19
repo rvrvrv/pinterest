@@ -46,6 +46,7 @@ function likeBtnSwitch(link, makeUnlike) {
         $(link).tooltip('remove');
         $(link).attr('data-tooltip', 'Unlike this pin');
         $(link).tooltip();
+        $(link).removeClass('liked');
         $(link).find('i').removeClass('fa-heart-o').addClass('fa-heart');
         $(link).click(() => likePin($(link), true));
     }
@@ -53,6 +54,7 @@ function likeBtnSwitch(link, makeUnlike) {
         $(link).tooltip('remove');
         $(link).attr('data-tooltip', 'Like this pin');
         $(link).tooltip();
+        $(link).addClass('liked');
         $(link).find('i').removeClass('fa-heart').addClass('fa-heart-o');
         $(link).click(() => likePin($(link)));
     }

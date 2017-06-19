@@ -134,6 +134,13 @@ function loggedIn(user) {
         //If user likes the pin, update the UI
         if (likedPin) likeBtnSwitch(likedPin, true);
     });
+    
+    //Update user's pins (for filter button)
+    user.pins.forEach(e => {
+        let userPin = $(`a[data-owner="${user.id}"][data-url="${e}"]`);
+        //If user owns the pin, add class for filtering
+        if (userPin) userPin.addClass('yours');
+    });
 
     //Remove login button
     $('.login-btn').remove();
