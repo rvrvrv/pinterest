@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, likeBtnSwitch, likePin, localStorage, location, progress, updateImg */
+/* global $, ajaxFunctions, likeBtnSwitch, likePin, localStorage, location, updateImg */
 'use strict';
 
 //Check for login status
@@ -45,17 +45,27 @@ function loggedIn(user) {
 
     //Generate pin-filter menu
     $('.pins').before(`
-        <div class="container">
+        <div class="container animated hidden" id="filters">
             <div class="row">
                 <div class="col s12">
                     <ul class="tabs tabs-fixed-width">
-                        <li class="tab col s4"><a class="active" id="allBtn">All Pins</a></li>
-                        <li class="tab col s4"><a id="yoursBtn">Yours</a></li>
-                        <li class="tab col s4"><a id="likedBtn">Liked</a></li>
+                        <li class="tab col s4"><a class="filter-btn active" data-filter="*">All Pins</a></li>
+                        <li class="tab col s4"><a class="filter-btn" data-filter=".yours">Yours</a></li>
+                        <li class="tab col s4"><a class="filter-btn" data-filter=".liked">Liked</a></li>
                     </ul>
                 </div>
             </div>
         </div>`);
+        
+    //Activate pin-filter menu buttons
+    $('.filter-btn').click(function() {
+    $('.filter-btn.active').removeClass('active');
+    $(this).addClass('active');
+        let filterVal = $(this).data('filter');
+        $('.pins').isotope({
+            filter: filterVal
+        });
+    });
 
     //Generate 'New Pin' modals
     $('.modals').append(`
@@ -107,12 +117,6 @@ function loggedIn(user) {
     $('#newPinUrl').focusout(() => updateImg());
     $('.modal').modal();
 
-    //Activate logout link
-    $('#logoutBtn').click(() => {
-        localStorage.removeItem('rv-pinterest-id');
-        location.replace('/logout');
-    });
-
     //Activate dynamic links for logged-in user
     $('.dynLink').each(function() {
         let link = $(this).data('link');
@@ -134,15 +138,20 @@ function loggedIn(user) {
         //If user likes the pin, update the UI
         if (likedPin) likeBtnSwitch(likedPin, true);
     });
-    
+
     //Update user's pins (for filter button)
     user.pins.forEach(e => {
         let userPin = $(`a[data-owner="${user.id}"][data-url="${e}"]`);
         //If user owns the pin, add class for filtering
-        if (userPin) userPin.addClass('yours');
+        if (userPin) userPin.parents('.grid-item').addClass('yours');
+    });
+
+    //Activate logout link
+    $('#logoutBtn').click(() => {
+        localStorage.removeItem('rv-pinterest-id');
+        location.replace('/logout');
     });
 
     //Remove login button
     $('.login-btn').remove();
-    progress('hide');
 }

@@ -77,6 +77,7 @@ function showAllPins(data) {
                     itemSelector: '.grid-item'
                 });
                 $('.pins').addClass('fadeIn').removeClass('hidden');
+                if ($('#filters')) $('#filters').addClass('fadeIn').removeClass('hidden');
                 $('#loading').fadeOut().remove();
                 progress('hide');
             }, 1000);
