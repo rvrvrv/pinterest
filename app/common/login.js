@@ -43,8 +43,8 @@ function loggedIn(user) {
         stopPropagation: false
     });
 
-    //Generate pin-filter menu
-    $('.pins').before(`
+    //Generate and display pin-filter menu
+    $('.progress').after(`
         <div class="container animated hidden" id="filters">
             <div class="row">
                 <div class="col s12">
@@ -56,6 +56,7 @@ function loggedIn(user) {
                 </div>
             </div>
         </div>`);
+    $('#filters').addClass('fadeIn').removeClass('hidden');
         
     //Activate pin-filter menu buttons
     $('.filter-btn').click(function() {

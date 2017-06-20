@@ -64,7 +64,7 @@ function performSave() {
     if (pinCaption.hasClass('invalid') || pinUrl.hasClass('invalid')) return $('#modal-confirm').modal('close');
     
 	//Update UI while save is performed
-	progress('show');
+	progress('show', true);
 	$('#modal-confirm a').addClass('disabled');
 	$('#modal-confirm h5').html('Saving...');
 	
@@ -77,7 +77,7 @@ function performSave() {
 	        $('#modal-confirm a').removeClass('disabled');
 	        $('#modal-confirm h5').html('Are you sure you would like to save this pin?');
 	    }, 1000);
-	    progress('hide');
+	    progress('hide', true);
         //If an error occured, notify the user
         if (data === 'error') return Materialize.toast('An error has occurred. Please try again later.', 3000, 'error');
         if (data === 'exists') return Materialize.toast('You\'ve already pinned this image!', 3000, 'error');

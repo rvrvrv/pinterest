@@ -10,10 +10,16 @@ $(document).ready(() => {
     $('.brand-logo').click(() => scroll(0, 0));
 });
 
-//Show and hide progress bar
-function progress(operation) {
-    if (operation === 'show') $('.progress').removeClass('hidden');
-    else $('.progress').addClass('hidden');
+//Show/hide progress bar, which can be determinate or indeterminate
+function progress(operation, indeterminate) {
+    if (operation === 'show') {
+        if (indeterminate) $('.bar').removeClass('determinate').addClass('indeterminate');
+        $('.progress').removeClass('hidden');
+    }
+    else {
+        $('.progress').addClass('hidden');
+        if (indeterminate) $('.bar').removeClass('indeterminate').addClass('determinate');
+    }
 }
 
 //Show an error message
@@ -29,6 +35,9 @@ function showAllPins(data) {
     let isotopeCode = '';
     let modalCode = '';
     pins.forEach((e, i) => {
+        //Update progress bar
+        $('.determinate').css('width', `${Math.round((i / (pins.length - 1) * 100))}%`);
+        //Generate code for grid
         isotopeCode += `<div class="grid-item">
                             <img src="${e.url}" alt="${e.caption}">
                             <h6 class="center">${e.caption}</h6>
@@ -66,21 +75,21 @@ function showAllPins(data) {
         //         </div>`;
         //When at the end of the list, initialize all generated code
         if (i === pins.length - 1) {
+            $('#loading').fadeOut().remove();
             //Check to see if user is logged in. If so, logged-in view is generated.
             checkLoginStatus();
+            //Add generated code
             $('.pins').append(isotopeCode);
             $('.modals').append(modalCode);
             $('.tooltipped').tooltip();
-            //Smooth entrance
-            setTimeout(() => {
-                $('.pins').isotope({
-                    itemSelector: '.grid-item'
-                });
-                $('.pins').addClass('fadeIn').removeClass('hidden');
-                if ($('#filters')) $('#filters').addClass('fadeIn').removeClass('hidden');
-                $('#loading').fadeOut().remove();
-                progress('hide');
-            }, 1000);
+            //Initialize grid
+            let $grid = $('.pins').isotope({
+                itemSelector: '.grid-item'
+            });
+            $grid.isotope('shuffle');
+            $grid.imagesLoaded().progress(() => $grid.isotope('layout'));
+            progress('hide');
+
         }
     });
 }
