@@ -88,7 +88,6 @@ function showAllPins(data) {
                 $grid.isotope({
                     itemSelector: '.grid-item',
                     stagger: 50,
-                    transitionDuration: 500
                 });
                 $grid.isotope('shuffle');
                 $grid.removeClass('hidden');
