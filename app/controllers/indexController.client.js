@@ -73,6 +73,7 @@ function showAllPins(data) {
         //                     onclick="reqTrade(this, true)">Request Trade</a>
         //             </div>
         //         </div>`;
+
         //When at the end of the list, initialize all generated code
         if (i === pins.length - 1) {
             $('#loading').fadeOut().remove();
@@ -82,14 +83,17 @@ function showAllPins(data) {
             $('.pins').append(isotopeCode);
             $('.modals').append(modalCode);
             $('.tooltipped').tooltip();
-            //Initialize grid
-            let $grid = $('.pins').isotope({
-                itemSelector: '.grid-item'
+            //Initialize the grid
+            let $grid = $('.pins').imagesLoaded(() => {
+                $grid.isotope({
+                    itemSelector: '.grid-item',
+                    stagger: 50,
+                    transitionDuration: 500
+                });
+                $grid.isotope('shuffle');
+                $grid.removeClass('hidden');
             });
-            $grid.isotope('shuffle');
-            $grid.imagesLoaded().progress(() => $grid.isotope('layout'));
             progress('hide');
-
         }
     });
 }
