@@ -39,7 +39,7 @@ function showAllPins(data) {
         $('.determinate').css('width', `${Math.round((i / (pins.length - 1) * 100))}%`);
         //Generate code for grid
         isotopeCode += `<div class="grid-item">
-                            <img src="${e.url}" alt="${e.caption}">
+                            <img src="${e.url}" alt="${e.caption}" onerror="this.onerror=null;this.src='../public/img/badImg.jpg';">
                             <h6 class="center">${e.caption}</h6>
                             <h6 class="right">
                                 <a class="dynLink tooltipped" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" 
