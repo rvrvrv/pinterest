@@ -90,7 +90,7 @@ h5 {
 
 .grid-item * {
     color: #fff;
-    transition: text-shadow 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .grid-item img {
@@ -110,16 +110,21 @@ h5 {
     padding: 0 5px;
 }
 
-.grid-item .right {
-    padding-right: 10px;
+.grid-item .left, .right {
+    padding: 5px 8px;
 }
 
-.grid-item i:hover {
+.grid-item .left i:hover {
+    text-shadow: 0 0 10px #000;
+    transform: rotateZ(180deg);
+}
+
+.grid-item .right i:hover {
     text-shadow: 0 0 5px #fff, 0 0 15px #f6b;
 }
 
 .grid-item i:active {
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
 
@@ -130,7 +135,7 @@ h5 {
     overflow-y: hidden;
 }
 
-#modal-confirm {
+.modal-confirm {
     width: 25%;
     margin-top: 25%;
 }
@@ -193,9 +198,11 @@ h5 {
     font-style: italic;
     font-weight: 500;
 }
+
 #modal-bigImg .modal-footer {
     margin: -20px 0 35px 0;
 }
+
 
 /* Animation */
 

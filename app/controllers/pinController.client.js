@@ -50,7 +50,7 @@ function savePin() {
     $btn.addClass('disabled');
     setTimeout(() => {
         //If URL is valid, open confirmation modal
-        if (lastUrl) $('#modal-confirm').modal('open');
+        if (lastUrl) $('#modalConfirmSave').modal('open');
         $btn.html('Save Pin');
         $btn.removeClass('disabled');
     }, 500);
@@ -61,21 +61,21 @@ function performSave() {
     let pinCaption = $('#newPinCaption');
     let pinUrl = $('#newPinUrl');
     //Final validation check
-    if (pinCaption.hasClass('invalid') || pinUrl.hasClass('invalid')) return $('#modal-confirm').modal('close');
+    if (pinCaption.hasClass('invalid') || pinUrl.hasClass('invalid')) return $('#modalConfirmSave').modal('close');
     
 	//Update UI while save is performed
 	progress('show', true);
-	$('#modal-confirm a').addClass('disabled');
-	$('#modal-confirm h5').html('Saving...');
+	$('#modalConfirmSave a').addClass('disabled');
+	$('#modalConfirmSave h5').html('Saving...');
 	
 	//Update the database (add pin to the user's collection)
 	let apiUrl = `/api/pin/${encodeURIComponent(pinUrl.val())}/${encodeURIComponent(pinCaption.val())}`;
 	ajaxFunctions.ajaxRequest('PUT', apiUrl, (data) => {
 	    //Regardless of result, close and restore the confirmation modal
-	    $('#modal-confirm').modal('close');
+	    $('#modalConfirmSave').modal('close');
 	    setTimeout(() => { 
-	        $('#modal-confirm a').removeClass('disabled');
-	        $('#modal-confirm h5').html('Are you sure you would like to save this pin?');
+	        $('#modalConfirmSave a').removeClass('disabled');
+	        $('#modalConfirmSave h5').html('Are you sure you would like to save this pin?');
 	    }, 1000);
 	    progress('hide', true);
         //If an error occured, notify the user
@@ -84,7 +84,6 @@ function performSave() {
         //Otherwise, close the modal and update the UI
         resetPinModal();
         let result = JSON.parse(data);
-        console.log(result);
 	    Materialize.toast('New pin saved!', 3000);
 	});
 }
@@ -98,4 +97,26 @@ function resetPinModal() {
         $('#newPinImg').attr('src', '../public/img/galaxy.jpg');
     }, 1000);
     lastUrl = '';
+}
+
+//Initial pin-deletion attempt from user
+function deletePin(pin) {
+    //Store pin to delete
+    let pinObj = {
+        owner: $(pin).data('owner'),
+        url: $(pin).data('url'),
+        caption: $(pin).data('caption')
+    };
+    //Update and display delete-confirmation modal
+    $('#delMsg').html(`Are you sure you want to delete ${pinObj.caption}?`);
+    $('#confirmDelBtn').unbind('click');
+    $('#confirmDelBtn').click(() => performDelete(pinObj));
+    $('#modalConfirmDelete').modal('open');
+}
+
+//After confirmation, delete the pin in the DB
+function performDelete(obj) {
+    //TO-DO: Implement AJAX call to API
+    console.log('Delete confirmed!');
+    console.log(obj);
 }

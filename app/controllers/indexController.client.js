@@ -48,11 +48,13 @@ function showAllPins(data) {
                                 <img src="${e.url}" alt="${e.caption}" data-owner="${e.ownerName}" onerror="this.onerror=null;this.src='../public/img/badImg.jpg';">
                             </a>
                             <h6 class="center">${e.caption}</h6>
-                            <h6 class="right">
-                                <a class="dynLink tooltipped" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" 
-                                onclick="errorMsg('Please log in to like ${e.caption}')" data-tooltip="Like this pin">
-                                <i class="fa fa-heart-o"></i>&nbsp;</a>
-                                <span class="likes">${e.likes}</span>
+                            <h6>
+                                <span class="right">
+                                    <a class="dynLink tooltipped" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" 
+                                    onclick="errorMsg('Please log in to like ${e.caption}')" data-tooltip="Like this pin">
+                                    <i class="fa fa-heart-o"></i>&nbsp;</a>
+                                    <span class="likes">${e.likes}</span>
+                                </span>
                             </h6>
                         </div>`;
         //When at the end of the list, initialize all generated code

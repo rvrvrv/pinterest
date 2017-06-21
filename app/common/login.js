@@ -102,7 +102,7 @@ function loggedIn(user) {
                 </div>
             </div>
         </div>
-        <div id="modal-confirm" class="modal">
+        <div id="modalConfirmSave" class="modal modal-confirm">
             <div class="modal-content">
                 <div class="row center">
                     <h5>Are you sure you would like to save this pin?</h5>
@@ -116,7 +116,48 @@ function loggedIn(user) {
             </div>
         </div>`);
     $('#newPinUrl').focusout(() => updateImg());
+    
+    //Generate 'Delete Pin' confirmation modal
+    $('.modals').append(`
+        <div id="modalConfirmDelete" class="modal modal-confirm">
+            <div class="modal-content">
+                <div class="row center">
+                    <h5 id="delMsg"></h5>
+                </div>
+            </div>
+            <div class="modal-footer valign-wrapper">
+                <div class="row center">
+                    <a class="waves-effect waves-red btn-flat" id="confirmDelBtn">Yes</a>
+                    <a class="waves-effect waves-yellow btn-flat modal-action modal-close">No</a>
+                </div>
+            </div>
+        </div>`);
+    
+    //Initialize new modals
     $('.modal').modal();
+
+    //Update and activate like buttons
+    user.likes.forEach(e => {
+        let likedPin = $(`a[data-owner="${e.ownerId}"][data-url="${e.url}"]`);
+        //If user likes the pin, update the UI
+        if (likedPin) likeBtnSwitch(likedPin, true);
+    });
+
+    //Update user's pins (for filter and delete buttons)
+    user.pins.forEach(e => {
+        let userPin = $(`a[data-owner="${user.id}"][data-url="${e}"]`);
+        //Add class for filtering
+        userPin.parents('.grid-item').addClass('yours');
+        //Add delete link
+        userPin.parents('.right').before(`
+            <span class="left">
+                <a class="tooltipped" data-caption="${userPin.parents('h6').prev().html()}" 
+                data-owner="${user.id}" data-url="${e}" 
+                onclick="deletePin(this)" data-tooltip="Delete this pin">
+                <i class="fa fa-minus-square-o"></i></a>
+            </span>`);
+        $('.tooltipped').tooltip();
+    });
 
     //Activate dynamic links for logged-in user
     $('.dynLink').each(function() {
@@ -132,21 +173,7 @@ function loggedIn(user) {
             $(this).click(() => likePin(this));
         }
     });
-
-    //Update and activate like buttons
-    user.likes.forEach(e => {
-        let likedPin = $(`a[data-owner="${e.ownerId}"][data-url="${e.url}"]`);
-        //If user likes the pin, update the UI
-        if (likedPin) likeBtnSwitch(likedPin, true);
-    });
-
-    //Update user's pins (for filter button)
-    user.pins.forEach(e => {
-        let userPin = $(`a[data-owner="${user.id}"][data-url="${e}"]`);
-        //If user owns the pin, add class for filtering
-        if (userPin) userPin.parents('.grid-item').addClass('yours');
-    });
-
+    
     //Activate logout link
     $('#logoutBtn').click(() => {
         localStorage.removeItem('rv-pinterest-id');
