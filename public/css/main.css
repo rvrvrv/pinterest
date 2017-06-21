@@ -118,9 +118,10 @@ h5 {
     text-shadow: 0 0 5px #fff, 0 0 15px #f6b;
 }
 
-.grid-item i:active{
+.grid-item i:active {
     transform: scale(1.05);
 }
+
 
 /* Pin creation modal and form */
 
@@ -174,6 +175,27 @@ h5 {
     margin-top: 5px;
 }
 
+
+/* Big-image modal */
+
+#modal-bigImg {
+    margin-top: -50px;
+    width: 90vw;
+}
+
+#bigImg {
+    margin-bottom: -20px;
+    max-width: 75vw;
+    max-height: 75vh;
+}
+
+#bigImgOwner {
+    font-style: italic;
+    font-weight: 500;
+}
+#modal-bigImg .modal-footer {
+    margin: -20px 0 35px 0;
+}
 
 /* Animation */
 

@@ -12,8 +12,9 @@ $(document).ready(() => {
 
 //Display pin in big-image modal
 function bigImg(img) {
-    $('#bigImgUrl').attr('src', img.src);
-    $('#bigImgCaption').html(img.alt);
+    $('#bigImg').attr('src', img.attr('src'));
+    $('#bigImgCaption').html(img.attr('alt'));
+    $('#bigImgOwner').html(`Pinned by ${img.attr('data-owner')}`);
     $('#modal-bigImg').modal('open');
 }
 
@@ -44,7 +45,7 @@ function showAllPins(data) {
         $('.determinate').css('width', `${Math.round((i / (pins.length - 1) * 100))}%`);
         //Generate code for grid
         isotopeCode += `<div class="grid-item">
-                                <img src="${e.url}" alt="${e.caption}" onclick="bigImg(this)" onerror="this.onerror=null;this.src='../public/img/badImg.jpg';">
+                                <img src="${e.url}" alt="${e.caption}" data-owner="${e.ownerName}" onerror="this.onerror=null;this.src='../public/img/badImg.jpg';">
                             </a>
                             <h6 class="center">${e.caption}</h6>
                             <h6 class="right">
@@ -71,6 +72,10 @@ function showAllPins(data) {
                 });
                 $grid.isotope('shuffle');
                 $grid.removeClass('hidden');
+            });
+            //Click-handler to open pins
+            $('.grid-item img').click(function() {
+                bigImg($(this));
             });
             progress('hide');
         }
