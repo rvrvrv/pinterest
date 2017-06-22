@@ -110,7 +110,6 @@ function deletePin(pin) {
 //After confirmation, delete the pin in the DB
 function performDelete(pinUrl) {
     ajaxFunctions.ajaxRequest('DELETE', `/api/pin/${encodeURIComponent(pinUrl)}`, (result) => {
-        console.log(result);
         //If an error occured, notify the user
         if (result === 'error') return errorMsg();
         if (result === 'no') return errorMsg('That isn\'t your pin!');
