@@ -101,7 +101,7 @@ function ClickHandler() {
 					})
 					.exec((err, result) => {
 						if (err) return res.send('error');
-						res.json(result);
+						res.send(reqSess.userId);
 					});
 			});
 	};

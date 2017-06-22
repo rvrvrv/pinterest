@@ -115,7 +115,8 @@ function performDelete(pinUrl) {
         if (result === 'error') return errorMsg();
         if (result === 'no') return errorMsg('That isn\'t your pin!');
         //Otherwise, close the modal and update the UI
-        
-        
+        $('#modalConfirmDelete').modal('close');
+        Materialize.toast('Your pin has been deleted!', 3000);
+        $('.pins').isotope('remove', $(`.grid-item[data-owner="${result}"][data-url="${pinUrl}"]`));
     });
 }

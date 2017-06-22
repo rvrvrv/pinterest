@@ -44,7 +44,7 @@ function showAllPins(data) {
         //Update progress bar
         $('.determinate').css('width', `${Math.round((i / (pins.length - 1) * 100))}%`);
         //Generate code for grid
-        isotopeCode += `<div class="grid-item">
+        isotopeCode += `<div class="grid-item" data-owner="${e.ownerName}" data-url="${e.url}">
                                 <img src="${e.url}" alt="${e.caption}" data-owner="${e.ownerName}" onerror="this.onerror=null;this.src='../public/img/badImg.jpg';">
                             </a>
                             <h6 class="center">${e.caption}</h6>
