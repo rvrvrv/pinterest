@@ -56,7 +56,7 @@ module.exports = (app, passport) => {
 		
 	//Add & remove pin routes
 	app.route('/api/pin/:pinUrl/:pinCaption')
-		.post((req, res) => clickHandler.addToCollection(req, res))
+		.post(isLoggedIn, (req, res) => clickHandler.addToCollection(req, res))
 		.put(isLoggedIn, (req, res) => clickHandler.addPin(req.session, decodeURIComponent(req.params.pinUrl), decodeURIComponent(req.params.pinCaption), res))
-		.delete((req, res) => clickHandler.delPin(req.params.pinUrl, req.session.user, res));
+		.delete(isLoggedIn, (req, res) => clickHandler.delPin(req.session, decodeURIComponent(req.params.pinUrl), res));
 };

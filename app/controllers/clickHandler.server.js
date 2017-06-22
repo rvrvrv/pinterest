@@ -72,49 +72,14 @@ function ClickHandler() {
 			});
 	};
 
-	//Delete pin from overall collection
-	this.delFromCollection = function(reqBook, reqOwner, res) {
-		Pins
-			.remove({
-				'id': reqBook,
-				'owner': reqOwner
-			})
-			//Then, find and delete any related trade requests
-			.exec((err, result) => {
-				if (err) throw err;
-				Users
-					.updateMany({
-						$or: [{
-							'incomingRequests.bookId': reqBook
-						}, {
-							'outgoingRequests.bookId': reqBook
-						}]
-					}, {
-						$pull: {
-							'incomingRequests': {
-								'bookId': reqBook
-							},
-							'outgoingRequests': {
-								'bookId': reqBook
-							}
-						}
-					})
-					.exec((err, result2) => {
-						if (err) throw err;
-						res.send('Done!');
-					});
-			});
-	};
-
-
-	//Remove book from user's collection and club collection, if necessary
-	this.delBook = function(reqBook, reqUser, res, trade) {
+	//Remove pin from user's list and overall collection
+	this.delPin = function(reqSess, reqPin, res) {
 		Users
 			.findOneAndUpdate({
-				'id': reqUser
+				'id': reqSess.userId
 			}, {
 				$pull: {
-					'pins': reqBook
+					'pins': reqPin
 				}
 			}, {
 				projection: {
@@ -126,9 +91,18 @@ function ClickHandler() {
 				'new': true
 			})
 			.exec((err, result) => {
-				if (err) throw err;
-				//If this isn't a trade, remove book from the club's collection
-				if (!trade) this.delFromCollection(reqBook, reqUser, res);
+				if (err) return res.send('error');
+				if (!result) return res.send('no');
+				//Remove pin from overall collection
+				Pins
+					.remove({
+						'url': reqPin,
+						'ownerId': reqSess.userId
+					})
+					.exec((err, result) => {
+						if (err) return res.send('error');
+						res.json(result);
+					});
 			});
 	};
 
@@ -227,35 +201,6 @@ function ClickHandler() {
 						if (err) res.send('error');
 						res.json(result);
 					});
-			});
-	};
-
-	//Accept a trade
-	this.acceptTrade = function(bookOwner, reqObj, res) {
-		let tradeReq = JSON.parse(reqObj);
-
-		//First, swap the book between users
-		this.addBook(tradeReq.book, tradeReq.user, res, true);
-		this.delBook(tradeReq.book, bookOwner, res, true);
-		this.cancelTradeRequest(bookOwner, reqObj, res, true);
-
-		//Then, change the book owner
-		Pins
-			.findOneAndUpdate({
-				'id': tradeReq.book
-			}, {
-				$set: {
-					'owner': tradeReq.user
-				},
-			}, {
-				projection: {
-					'_id': 0
-				},
-				new: true
-			})
-			.exec((err, result) => {
-				if (err) throw err;
-				res.json(result);
 			});
 	};
 }

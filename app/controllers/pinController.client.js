@@ -18,17 +18,17 @@ function badImg(url) {
 //Validate URL field and update image
 function updateImg() {
     let $url = $('#newPinUrl');
-    
+
     //If URL field is empty, don't do anything
     if ($url.val() === '') return;
-   
+
     //Otherwise, continue with validation
     let thisUrl = $url.val().trim();
 
     //Prepend URL with protocol, if necessary
     if (!thisUrl.toLowerCase().startsWith('http')) thisUrl = 'https://' + thisUrl;
     $url.val(thisUrl);
-            
+
     //If URL is new and appears valid, update the image
     if (thisUrl !== lastUrl) {
         $('#newPinImg').attr('src', thisUrl);
@@ -62,36 +62,35 @@ function performSave() {
     let pinUrl = $('#newPinUrl');
     //Final validation check
     if (pinCaption.hasClass('invalid') || pinUrl.hasClass('invalid')) return $('#modalConfirmSave').modal('close');
-    
-	//Update UI while save is performed
-	progress('show', true);
-	$('#modalConfirmSave a').addClass('disabled');
-	$('#modalConfirmSave h5').html('Saving...');
-	
-	//Update the database (add pin to the user's collection)
-	let apiUrl = `/api/pin/${encodeURIComponent(pinUrl.val())}/${encodeURIComponent(pinCaption.val())}`;
-	ajaxFunctions.ajaxRequest('PUT', apiUrl, (data) => {
-	    //Regardless of result, close and restore the confirmation modal
-	    $('#modalConfirmSave').modal('close');
-	    setTimeout(() => { 
-	        $('#modalConfirmSave a').removeClass('disabled');
-	        $('#modalConfirmSave h5').html('Are you sure you would like to save this pin?');
-	    }, 1000);
-	    progress('hide', true);
+
+    //Update UI while save is performed
+    progress('show', true);
+    $('#modalConfirmSave a').addClass('disabled');
+    $('#modalConfirmSave h5').html('Saving...');
+
+    //Update the database (add pin to the user's collection)
+    let apiUrl = `/api/pin/${encodeURIComponent(pinUrl.val())}/${encodeURIComponent(pinCaption.val())}`;
+    ajaxFunctions.ajaxRequest('PUT', apiUrl, (result) => {
+        //Regardless of result, close and restore the confirmation modal
+        $('#modalConfirmSave').modal('close');
+        setTimeout(() => {
+            $('#modalConfirmSave a').removeClass('disabled');
+            $('#modalConfirmSave h5').html('Are you sure you would like to save this pin?');
+        }, 1000);
+        progress('hide', true);
         //If an error occured, notify the user
-        if (data === 'error') return Materialize.toast('An error has occurred. Please try again later.', 3000, 'error');
-        if (data === 'exists') return Materialize.toast('You\'ve already pinned this image!', 3000, 'error');
+        if (result === 'error') return errorMsg();
+        if (result === 'exists') return errorMsg('You\'ve already pinned this image!');
         //Otherwise, close the modal and update the UI
         resetPinModal();
-        let result = JSON.parse(data);
-	    Materialize.toast('New pin saved!', 3000);
-	});
+        Materialize.toast('New pin saved!', 3000);
+    });
 }
 
 //Reset the new-pin modal
 function resetPinModal() {
     $('#modal-newPin').modal('close');
-    setTimeout(() => { 
+    setTimeout(() => {
         $('input').val('');
         $('input').removeClass('invalid valid');
         $('#newPinImg').attr('src', '../public/img/galaxy.jpg');
@@ -101,22 +100,22 @@ function resetPinModal() {
 
 //Initial pin-deletion attempt from user
 function deletePin(pin) {
-    //Store pin to delete
-    let pinObj = {
-        owner: $(pin).data('owner'),
-        url: $(pin).data('url'),
-        caption: $(pin).data('caption')
-    };
     //Update and display delete-confirmation modal
-    $('#delMsg').html(`Are you sure you want to delete ${pinObj.caption}?`);
+    $('#delMsg').html(`Are you sure you want to delete ${$(pin).data('caption')}?`);
     $('#confirmDelBtn').unbind('click');
-    $('#confirmDelBtn').click(() => performDelete(pinObj));
+    $('#confirmDelBtn').click(() => performDelete($(pin).data('url')));
     $('#modalConfirmDelete').modal('open');
 }
 
 //After confirmation, delete the pin in the DB
-function performDelete(obj) {
-    //TO-DO: Implement AJAX call to API
-    console.log('Delete confirmed!');
-    console.log(obj);
+function performDelete(pinUrl) {
+    ajaxFunctions.ajaxRequest('DELETE', `/api/pin/${encodeURIComponent(pinUrl)}`, (result) => {
+        console.log(result);
+        //If an error occured, notify the user
+        if (result === 'error') return errorMsg();
+        if (result === 'no') return errorMsg('That isn\'t your pin!');
+        //Otherwise, close the modal and update the UI
+        
+        
+    });
 }

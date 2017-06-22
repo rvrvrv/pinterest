@@ -19,7 +19,7 @@ function bigImg(img) {
 }
 
 //Show an error message
-function errorMsg(message) {
+function errorMsg(message = 'An error has occurred. Please try again later.') {
     Materialize.toast(message, 3000, 'error');
 }
 
