@@ -149,7 +149,7 @@ function loggedIn(user) {
         //Add class for filtering
         userPin.parents('.grid-item').addClass('yours');
         //Add delete button
-        userPin.parents('.right').before(generateDelBtn(e.url, e.caption, e.ownerId));
+        userPin.parents('.right').before(generateDelBtn(e, userPin.parents('h6').prev().html(), user.id));
         $('.tooltipped').tooltip();
     });
 
