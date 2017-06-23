@@ -47,6 +47,7 @@ function likeBtnSwitch(link, makeUnlike) {
         $(link).tooltip();
         $(link).find('i').removeClass('fa-heart-o').addClass('fa-heart');
         $(link).click(() => likePin($(link), true));
+        $(link).data('link', 'unlike');
     }
     else {
         $(link).parents('.grid-item').removeClass('liked');

@@ -162,15 +162,16 @@ function loggedIn(user) {
     //Activate dynamic links for logged-in user
     $('.dynLink').each(function() {
         let link = $(this).data('link');
-        //Activate modal links (to view pins)
+        //New-pin modal
         if (link.includes('modal'))
             $(this).click(() => $(link).modal('open'));
-        //Activate like links
+        //Like/unlike links
         else if (link.includes('like')) {
-            //Remove 'Please login' message
+            //Remove 'Please login' message from all like/unlike links
             $(this).prop('onclick', null); //For IE compatibility
             $(this).removeAttr('onclick');
-            $(this).click(() => likePin(this));
+            //Activate 'like' links
+            if (link === 'like') $(this).click(() => likePin(this));
         }
     });
     
