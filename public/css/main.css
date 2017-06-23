@@ -51,26 +51,25 @@ h5 {
     opacity: 0;
 }
 
+
+/* Navbar */
+
+#navImg {
+    border-radius: 5px;
+    margin-top: 3px;
+}
+
+#navName {
+    font-size: 1.5em;
+    margin: 0 -15px 0 10px;
+}
+
 #userInfo a {
     background-color: transparent;
 }
 
-#userInfo li {
-    margin-right: 10px;
-    font-size: 2em;
-}
-
-#userInfo img {
-    border-radius: 5px;
-    margin-top: 10%;
-}
-
 #userDropdown a {
     color: #880e4f;
-}
-
-#userProfile {
-    color: #000;
 }
 
 
@@ -110,7 +109,8 @@ h5 {
     padding: 0 5px;
 }
 
-.grid-item .left, .right {
+.grid-item .left,
+.right {
     padding: 5px 8px;
 }
 
@@ -254,9 +254,10 @@ h5 {
 }
 
 
-/* Grid for mobile devices */
+/* Adjustments for small screens */
 
 @media only screen and (max-device-width: 640px) {
+    /* Isotope grid */
     .pins {
         display: block;
         margin: 10px auto 0 auto;
@@ -273,5 +274,15 @@ h5 {
     }
     .grid-item .right {
         padding-right: 3px;
+    }
+}
+
+
+/* Corresponds with materialize.css hide-on-small-only */
+
+@media only screen and (max-width: 600px) {
+    /* Navbar */
+    #navImg {
+        margin: -2px -20px;
     }
 }

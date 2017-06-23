@@ -21,9 +21,8 @@ function loggedIn(user) {
 
     //Generate user info in navbar
     $('#userInfo').html(`
-        <a class="dropdown-button" data-beloworigin="true" data-activates="userDropdown">
-        <li><img class="valign left-align" src="${user.img}"
-        alt="${user.name}" id="navImg"></li>
+        <a class="dropdown-button" data-activates="userDropdown">
+        <li><img src="${user.img}" alt="${user.name}" id="navImg"></li>
         <li class="hide-on-small-only" id="navName">${user.name.split(' ')[0]}</li></a>`);
 
     //Generate dropdown menu
