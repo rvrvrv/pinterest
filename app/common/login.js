@@ -172,6 +172,7 @@ function loggedIn(user) {
     //Activate logout link
     $('#logoutBtn').click(() => {
         localStorage.removeItem('rv-pinterest-id');
+        localStorage.removeItem('rv-pinterest-name');
         location.replace('/logout');
     });
 

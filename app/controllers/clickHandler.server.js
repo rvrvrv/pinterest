@@ -65,8 +65,8 @@ function ClickHandler() {
 						});
 						newPin.save()
 							.then(res.json({
-								'caption': reqCaption,
-								'url': reqUrl
+								'ownerId': reqSess.userId,
+								'ownerName': reqSess.userName
 							}));
 					});
 			});

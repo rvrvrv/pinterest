@@ -25,8 +25,9 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
                             </span>
                         </h6>
                     </div>`;
+    console.log(pinHtml);
     //If called from performSave function, update the grid
-    if (updateGrid) return $('.pins').isotope('insert', pinHtml);
+    if (updateGrid) return $('.pins').isotope('insert', $(pinHtml));
     //If called from showAllPins (indexController.client.js), return html code only
     else return pinHtml;
 }
@@ -120,6 +121,8 @@ function performSave() {
         if (result === 'exists') return errorMsg('You\'ve already pinned this image!');
         //Otherwise, close the modal and update the UI
         resetPinModal();
+        let data = JSON.parse(result);
+        generatePin(pinUrl.val(), pinCaption.val(), data.ownerId, data.ownerName, 0, true, true);
         Materialize.toast('New pin saved!', 3000);
     });
 }

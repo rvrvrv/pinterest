@@ -44,7 +44,7 @@ function showAllPins(data) {
         //Update progress bar
         $('.determinate').css('width', `${Math.round((i / (pins.length - 1) * 100))}%`);
         //Generate code for grid
-        isotopeCode += generatePin(e.url, e.caption, e.ownerId, e.ownerName, e.likes, false, false);
+        isotopeCode += generatePin(e.url, e.caption, e.ownerId, e.ownerName, e.likes);
         //When at the end of the list, initialize all generated code
         if (i === pins.length - 1) {
             $('#loading').fadeOut().remove();
