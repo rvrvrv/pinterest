@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, likeBtnSwitch, likePin, localStorage, location, updateImg */
+/* global $, ajaxFunctions, generateDelBtn, likeBtnSwitch, likePin, localStorage, location, updateImg */
 'use strict';
 
 //Check for login status
@@ -148,14 +148,8 @@ function loggedIn(user) {
         let userPin = $(`a[data-owner="${user.id}"][data-url="${e}"]`);
         //Add class for filtering
         userPin.parents('.grid-item').addClass('yours');
-        //Add delete link
-        userPin.parents('.right').before(`
-            <span class="left">
-                <a class="tooltipped" data-caption="${userPin.parents('h6').prev().html()}" 
-                data-owner="${user.id}" data-url="${e}" 
-                onclick="deletePin(this)" data-tooltip="Delete this pin">
-                <i class="fa fa-minus-square-o"></i></a>
-            </span>`);
+        //Add delete button
+        userPin.parents('.right').before(generateDelBtn(e.url, e.caption, e.ownerId));
         $('.tooltipped').tooltip();
     });
 

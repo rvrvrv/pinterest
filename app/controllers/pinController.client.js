@@ -4,6 +4,43 @@
 
 let lastUrl;
 
+//Generate HTML for pin in grid
+function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGrid) {
+    //Set onclick based on whether or not user is logged in
+    let onclick = loggedIn ? 'likePin(this)' : `errorMsg('Please log in to like ${caption}')`;
+    //If user is logged in (and created the pin), generate the delete button
+    let delBtn = loggedIn ? generateDelBtn(url, caption, ownerId) : '';
+    //Outputted HTML code
+    let pinHtml = `<div class="grid-item" data-owner="${ownerId}" data-url="${url}">
+                    <img src="${url}" alt="${caption}" data-owner-name="${ownerName}"
+                    onerror="this.onerror=null;this.src='../public/img/badImg.jpg';">
+                    <h6 class="center">${caption}</h6>
+                        <h6>
+                            ${delBtn}
+                            <span class="right">
+                                <a class="dynLink tooltipped" data-link="like" data-owner="${ownerId}" data-url="${url}" 
+                                onclick="${onclick}" data-tooltip="Like this pin">
+                                <i class="fa fa-heart-o"></i>&nbsp;</a>
+                                <span class="likes">${likes}</span>
+                            </span>
+                        </h6>
+                    </div>`;
+    //If called from performSave function, update the grid
+    if (updateGrid) return $('.pins').isotope('insert', pinHtml);
+    //If called from showAllPins (indexController.client.js), return html code only
+    else return pinHtml;
+}
+
+//Generate HTML for delete-pin buttons in grid
+function generateDelBtn(url, caption, ownerId) {
+    return `<span class="left">
+                <a class="tooltipped" data-caption="${caption}" 
+                data-owner="${ownerId}" data-url="${url}" 
+                onclick="deletePin(this)" data-tooltip="Delete this pin">
+                <i class="fa fa-minus-square-o"></i></a>
+            </span>`;
+}
+
 //Update UI when image cannot be found
 function badImg(url) {
     //Insert placeholder image

@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, checkLoginStatus, Materialize */
+/* global $, ajaxFunctions, checkLoginStatus, generatePin, Materialize */
 'use strict';
 
 $(document).ready(() => {
@@ -44,19 +44,7 @@ function showAllPins(data) {
         //Update progress bar
         $('.determinate').css('width', `${Math.round((i / (pins.length - 1) * 100))}%`);
         //Generate code for grid
-        isotopeCode += `<div class="grid-item" data-owner="${e.ownerId}" data-url="${e.url}">
-                                <img src="${e.url}" alt="${e.caption}" data-owner-name="${e.ownerName}" onerror="this.onerror=null;this.src='../public/img/badImg.jpg';">
-                            </a>
-                            <h6 class="center">${e.caption}</h6>
-                            <h6>
-                                <span class="right">
-                                    <a class="dynLink tooltipped" data-link="like" data-owner="${e.ownerId}" data-url="${e.url}" 
-                                    onclick="errorMsg('Please log in to like ${e.caption}')" data-tooltip="Like this pin">
-                                    <i class="fa fa-heart-o"></i>&nbsp;</a>
-                                    <span class="likes">${e.likes}</span>
-                                </span>
-                            </h6>
-                        </div>`;
+        isotopeCode += generatePin(e.url, e.caption, e.ownerId, e.ownerName, e.likes, false, false);
         //When at the end of the list, initialize all generated code
         if (i === pins.length - 1) {
             $('#loading').fadeOut().remove();
