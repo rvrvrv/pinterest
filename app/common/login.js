@@ -15,7 +15,6 @@ function checkLoginStatus() {
 
 //Show logged-in view
 function loggedIn(user) {
-    console.log(user);
     //Store user's info
     localStorage.setItem('rv-pinterest-id', user.id);
     localStorage.setItem('rv-pinterest-name', user.name);

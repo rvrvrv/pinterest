@@ -25,7 +25,6 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
                             </span>
                         </h6>
                     </div>`;
-    console.log(pinHtml);
     //If called from performSave function, update the grid
     if (updateGrid) return $('.pins').isotope('insert', $(pinHtml));
     //If called from showAllPins (indexController.client.js), return html code only
