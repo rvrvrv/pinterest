@@ -39,8 +39,14 @@ h5 {
     background-color: #1da1f2;
 }
 
-.navbar-fixed {
-    user-select: none;
+.modal {
+    max-height: 100vh;
+    overflow-y: hidden;
+}
+
+.modal-confirm {
+    width: 25%;
+    margin-top: 25%;
 }
 
 .error {
@@ -53,6 +59,10 @@ h5 {
 
 
 /* Navbar */
+
+.navbar-fixed {
+    user-select: none;
+}
 
 #navImg {
     border-radius: 5px;
@@ -129,16 +139,6 @@ h5 {
 
 
 /* Pin creation modal and form */
-
-.modal {
-    max-height: 100vh;
-    overflow-y: hidden;
-}
-
-.modal-confirm {
-    width: 25%;
-    margin-top: 25%;
-}
 
 #newImgDiv {
     height: 350px;
@@ -257,6 +257,22 @@ h5 {
 /* Adjustments for small screens */
 
 @media only screen and (max-device-width: 640px) {
+    /* Modals */
+    .modal {
+        width: 100vw;
+        margin-top: -50px;
+    }
+    #newImgDiv {
+        margin-bottom: -100px;
+        max-width: 90vw;
+    }
+    #newPinImg {
+        max-width: 90vw;
+    }
+    .modal-confirm {
+        width: 25%;
+        margin-top: 25%;
+    }
     /* Isotope grid */
     .pins {
         display: block;
