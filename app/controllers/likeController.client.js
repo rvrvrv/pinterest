@@ -4,7 +4,6 @@
 
 //Like (or unlike) a pin
 function likePin(link, unlike) {
-    return console.log('link at likePin: ', link);
     //Store pin information for API call
     let likeReq = {
         url: encodeURIComponent($(link).data('url')),
