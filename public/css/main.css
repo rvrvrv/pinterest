@@ -16,6 +16,7 @@ img {
     margin: 0 auto;
     max-width: 800px;
     border-radius: 2%;
+    background: #fff;
 }
 
 a:hover {
