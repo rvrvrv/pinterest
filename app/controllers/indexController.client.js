@@ -39,35 +39,36 @@ function progress(operation, indeterminate) {
 function showAllPins(data) {
     progress('show');
     let pins = JSON.parse(data);
-    let isotopeCode = '';
+    let loadedCount = 0;
+    let loadedPercent = 0;
     pins.forEach((e, i) => {
-        //Update progress bar
-        $('.determinate').css('width', `${Math.round((i / (pins.length - 1) * 100))}%`);
         //Generate code for grid
-        isotopeCode += generatePin(e.url, e.caption, e.ownerId, e.ownerName, e.likes);
-        //When at the end of the list, initialize all generated code
+        $('.pins').append(generatePin(e.url, e.caption, e.ownerId, e.ownerName, e.likes));
+        //When at the end of the list (all pin HTML generated), update UI
         if (i === pins.length - 1) {
             $('#loading').fadeOut().remove();
+            //Initialize Isotope grid
+            let $grid = $('.pins').isotope({
+                itemSelector: '.grid-item'
+            });
+            //Update progress bar and Isotope layout after each image loads
+            $grid.imagesLoaded().progress(() => {
+                loadedCount++;
+                loadedPercent = Math.round((loadedCount / pins.length) * 100);
+                $('.determinate').css('width', `${loadedPercent}%`);
+                $grid.isotope('layout');
+            });
             //Check to see if user is logged in. If so, logged-in view is generated.
             checkLoginStatus();
-            //Add and initialize generated code
-            $('.pins').append(isotopeCode);
+            //Initialize tooltips and modals
             $('.tooltipped').tooltip();
             $('#modal-bigImg').modal();
-            //After all images are loaded, initialize the grid
-            let $grid = $('.pins').imagesLoaded(() => {
-                $grid.isotope({
-                    itemSelector: '.grid-item',
-                    stagger: 50,
-                });
-                $grid.isotope('shuffle');
-                $grid.removeClass('hidden');
-            });
             //Click-handler to open pins
             $('.grid-item img').click(function() {
                 bigImg($(this));
             });
-            progress('hide');
+            //Wait for all images to load before hiding progress bar
+            $grid.imagesLoaded(() => progress('hide'));
         }
     });
 }
