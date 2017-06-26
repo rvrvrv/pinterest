@@ -100,7 +100,6 @@ h5 {
 
 .grid-item * {
     color: #fff;
-    transition: all 0.3s ease-in-out;
 }
 
 .grid-item img {
@@ -114,6 +113,10 @@ h5 {
     max-width: 200px;
 }
 
+.grid-item i {
+    transition: all 0.3s ease-in-out;
+}
+
 .grid-item .center {
     margin-bottom: -5px;
     font-size: 1.08rem;
@@ -121,7 +124,7 @@ h5 {
 }
 
 .grid-item .left,
-.right {
+.grid-item .right {
     padding: 5px 8px;
 }
 
