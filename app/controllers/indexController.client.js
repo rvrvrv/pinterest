@@ -49,7 +49,10 @@ function showAllPins(data) {
             $('#loading').fadeOut().remove();
             //Initialize Isotope grid
             let $grid = $('.pins').isotope({
-                itemSelector: '.grid-item'
+                itemSelector: '.grid-item',
+                masonry: {
+                    isFitWidth: true
+                }
             });
             //Update progress bar and Isotope layout after each image loads
             $grid.imagesLoaded().progress(() => {
