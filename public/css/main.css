@@ -107,6 +107,8 @@ h5 {
 }
 
 .grid-item img {
+    background-image: url('../img/loading.gif');
+    background-size: cover;
     cursor: pointer;
     max-height: 400px;
     border-radius: 2% 2% 0 0;

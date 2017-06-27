@@ -16,7 +16,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
     }
     //Otherwise, set default properties.
     else {
-        divClass = 'grid-item';
+        divClass = 'grid-item is-loading';
         delBtn = '';
         onClick =`errorMsg('Please log in to like ${caption}')`;
     }
