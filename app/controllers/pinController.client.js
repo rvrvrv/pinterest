@@ -6,19 +6,16 @@ let lastUrl;
 
 //Generate HTML for pin in grid
 function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGrid) {
-    let divClass, delBtn, onClick;
-    //If loggedIn, user created the pin. Set properties accordingly.
+    let divClass, delBtn;
+    //If loggedIn, set properties for user's newly created pin
     if (loggedIn) {
         divClass = 'grid-item yours';
         delBtn = generateDelBtn(url, caption, ownerId);
-        onClick = 'likePin(this)';
-        
     }
-    //Otherwise, set default properties.
+    //If not loggedIn, set default properties
     else {
-        divClass = 'grid-item is-loading';
+        divClass = 'grid-item';
         delBtn = '';
-        onClick =`errorMsg('Please log in to like ${caption}')`;
     }
     //Outputted HTML code
     let pinHtml = `<div class="${divClass}" data-owner="${ownerId}" data-url="${url}">
