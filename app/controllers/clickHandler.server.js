@@ -1,207 +1,188 @@
 'use strict';
 
-const Users = require('../models/users.js');
-const Pins = require('../models/pins.js');
+var Users = require('../models/users.js');
+var Pins = require('../models/pins.js');
 
 function ClickHandler() {
 
 	//Load user data
-	this.loadUser = function(req, res) {
-		Users
-			.findOne({
-				'id': req.session.userId
-			}, {
-				'_id': 0,
-				'__v': 0,
-			}, (err, result) => {
-				if (err) return res.send('error');
-				if (!result) return res.send('no');
-				res.json(result);
-			});
+	this.loadUser = function (req, res) {
+		Users.findOne({
+			'id': req.session.userId
+		}, {
+			'_id': 0,
+			'__v': 0
+		}, function (err, result) {
+			if (err) return res.send('error');
+			if (!result) return res.send('no');
+			res.json(result);
+		});
 	};
 
 	//Retrieve all pins in overall collection
-	this.getAllPins = function(req, res) {
-		Pins
-			.find({}, {
-				'_id': 0
-			})
-			.exec((err, result) => {
-				if (err) return res.send('error');
-				res.json(result);
-			});
+	this.getAllPins = function (req, res) {
+		Pins.find({}, {
+			'_id': 0
+		}).exec(function (err, result) {
+			if (err) return res.send('error');
+			res.json(result);
+		});
 	};
 
 	//Add pin to user's list and overall collection
-	this.addPin = function(reqSess, reqUrl, reqCaption, res) {
+	this.addPin = function (reqSess, reqUrl, reqCaption, res) {
 		//First, ensure pin doesn't already exist in user's list
-		Users
-			.findOne({
-				'id': reqSess.userId,
-				'pins': reqUrl
+		Users.findOne({
+			'id': reqSess.userId,
+			'pins': reqUrl
+		}, {
+			'_id': 0,
+			'__v': 0
+		}, function (err, result) {
+			if (err) return res.send('error');
+			if (result) return res.send('exists');
+			//If pin doesn't exist, add it to user's list
+			Users.updateOne({
+				'id': reqSess.userId
 			}, {
-				'_id': 0,
-				'__v': 0,
-			}, (err, result) => {
+				$addToSet: {
+					'pins': reqUrl
+				}
+			}).exec(function (err, result) {
 				if (err) return res.send('error');
-				if (result) return res.send('exists');
-				//If pin doesn't exist, add it to user's list
-				Users
-					.updateOne({
-						'id': reqSess.userId
-					}, {
-						$addToSet: {
-							'pins': reqUrl
-						}
-					})
-					.exec((err, result) => {
-						if (err) return res.send('error');
-						//Add pin to overall collection
-						let newPin = new Pins({
-							'caption': reqCaption,
-							'url': reqUrl,
-							'ownerId': reqSess.userId,
-							'ownerName': reqSess.userName
-						});
-						newPin.save()
-							.then(res.json({
-								'ownerId': reqSess.userId,
-								'ownerName': reqSess.userName
-							}));
-					});
+				//Add pin to overall collection
+				var newPin = new Pins({
+					'caption': reqCaption,
+					'url': reqUrl,
+					'ownerId': reqSess.userId,
+					'ownerName': reqSess.userName
+				});
+				newPin.save().then(res.json({
+					'ownerId': reqSess.userId,
+					'ownerName': reqSess.userName
+				}));
 			});
+		});
 	};
 
 	//Remove pin from user's list and overall collection
-	this.delPin = function(reqSess, reqPin, res) {
-		Users
-			.findOneAndUpdate({
-				'id': reqSess.userId
-			}, {
-				$pull: {
-					'pins': reqPin
-				}
-			}, {
-				projection: {
-					'_id': 0,
-					'__v': 0,
-					'incomingRequests._id': 0,
-					'outgoingRequests._id': 0,
-				},
-				'new': true
-			})
-			.exec((err, result) => {
+	this.delPin = function (reqSess, reqPin, res) {
+		Users.findOneAndUpdate({
+			'id': reqSess.userId
+		}, {
+			$pull: {
+				'pins': reqPin
+			}
+		}, {
+			projection: {
+				'_id': 0,
+				'__v': 0,
+				'incomingRequests._id': 0,
+				'outgoingRequests._id': 0
+			},
+			'new': true
+		}).exec(function (err, result) {
+			if (err) return res.send('error');
+			if (!result) return res.send('no');
+			//Remove pin from overall collection
+			Pins.remove({
+				'url': reqPin,
+				'ownerId': reqSess.userId
+			}).exec(function (err, result) {
 				if (err) return res.send('error');
-				if (!result) return res.send('no');
-				//Remove pin from overall collection
-				Pins
-					.remove({
-						'url': reqPin,
-						'ownerId': reqSess.userId
-					})
-					.exec((err, result) => {
-						if (err) return res.send('error');
-						res.send(reqSess.userId);
-					});
+				res.send(reqSess.userId);
 			});
+		});
 	};
 
 	//Like a pin
-	this.likePin = function(requester, reqObj, res) {
-		let likeReq = JSON.parse(reqObj);
+	this.likePin = function (requester, reqObj, res) {
+		var likeReq = JSON.parse(reqObj);
 		likeReq.url = decodeURIComponent(likeReq.url);
 		//First, ensure user doesn't already like the pin
-		Users
-			.findOne({
-				'id': requester,
-				'likes.url': likeReq.url,
-				'likes.ownerId': likeReq.owner
+		Users.findOne({
+			'id': requester,
+			'likes.url': likeReq.url,
+			'likes.ownerId': likeReq.owner
+		}, {
+			'_id': 0,
+			'__v': 0
+		}, function (err, result) {
+			if (err) return res.send('error');
+			if (result) return res.send('exists');
+			//If pin isn't already liked, continue and like it
+			Pins.findOneAndUpdate({
+				'url': likeReq.url,
+				'ownerId': likeReq.owner
 			}, {
-				'_id': 0,
-				'__v': 0,
-			}, (err, result) => {
+				$inc: {
+					'likes': 1
+				}
+			})
+			//Then, update the requester's list of liked pins
+			.exec(function (err, result) {
 				if (err) return res.send('error');
-				if (result) return res.send('exists');
-				//If pin isn't already liked, continue and like it
-				Pins
-					.findOneAndUpdate({
-						'url': likeReq.url,
-						'ownerId': likeReq.owner
-					}, {
-						$inc: {
-							'likes': 1
+				Users.findOneAndUpdate({
+					'id': requester
+				}, {
+					$addToSet: {
+						'likes': {
+							'url': likeReq.url,
+							'ownerId': likeReq.owner
 						}
-					})
-					//Then, update the requester's list of liked pins
-					.exec((err, result) => {
-						if (err) return res.send('error');
-						Users
-							.findOneAndUpdate({
-								'id': requester
-							}, {
-								$addToSet: {
-									'likes': {
-										'url': likeReq.url,
-										'ownerId': likeReq.owner
-									}
-								},
-							}, {
-								projection: {
-									'_id': 0,
-									'__v': 0,
-									'likes._id': 0,
-								},
-								'new': true
-							})
-							.exec((err, result) => {
-								if (err) res.send('error');
-								res.json(result);
-							});
-					});
+					}
+				}, {
+					projection: {
+						'_id': 0,
+						'__v': 0,
+						'likes._id': 0
+					},
+					'new': true
+				}).exec(function (err, result) {
+					if (err) res.send('error');
+					res.json(result);
+				});
 			});
+		});
 	};
 
 	//Unlike a pin
-	this.unlikePin = function(requester, reqObj, res) {
-		let likeReq = JSON.parse(reqObj);
+	this.unlikePin = function (requester, reqObj, res) {
+		var likeReq = JSON.parse(reqObj);
 		likeReq.url = decodeURIComponent(likeReq.url);
 		//First, remove like from the requester's list
-		Users
-			.findOneAndUpdate({
-				'id': requester
+		Users.findOneAndUpdate({
+			'id': requester
+		}, {
+			$pull: {
+				'likes': {
+					'url': likeReq.url,
+					'ownerId': likeReq.owner
+				}
+			}
+		}, {
+			projection: {
+				'_id': 0,
+				'__v': 0,
+				'likes._id': 0
+			},
+			'new': true
+		}).exec(function (err, result) {
+			if (err) return res.send('error');
+			if (!result) return res.send('no');
+			//Then, decrease the pin's like counts
+			Pins.findOneAndUpdate({
+				'url': likeReq.url,
+				'ownerId': likeReq.owner
 			}, {
-				$pull: {
-					'likes': {
-						'url': likeReq.url,
-						'ownerId': likeReq.owner
-					}
-				},
-			}, {
-				projection: {
-					'_id': 0,
-					'__v': 0,
-					'likes._id': 0,
-				},
-				'new': true
-			})
-			.exec((err, result) => {
-				if (err) return res.send('error');
-				if (!result) return res.send('no');
-				//Then, decrease the pin's like counts
-				Pins
-					.findOneAndUpdate({
-						'url': likeReq.url,
-						'ownerId': likeReq.owner
-					}, {
-						$inc: {
-							'likes': -1
-						}
-					})
-					.exec((err, result) => {
-						if (err) res.send('error');
-						res.json(result);
-					});
+				$inc: {
+					'likes': -1
+				}
+			}).exec(function (err, result) {
+				if (err) res.send('error');
+				res.json(result);
 			});
+		});
 	};
 }
 

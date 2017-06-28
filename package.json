@@ -8,6 +8,7 @@
     "url": "git+https://github.com/rvrvrv/pinterest"
   },
   "scripts": {
+    "build": "babel src -d app",
     "start": "node server.js"
   },
   "author": "rvrvrv",
@@ -21,5 +22,9 @@
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
     "serve-favicon": "^2.4.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2"
   }
 }

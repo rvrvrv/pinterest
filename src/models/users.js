@@ -7,7 +7,7 @@ var User = new Schema({
     id: String,
     name: String,
     img: String,
-    pins: [String],
+    pins: [ String ],
     likes: [{
         url: String,
         ownerId: String
