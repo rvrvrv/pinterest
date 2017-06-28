@@ -6,16 +6,18 @@ let lastUrl;
 
 //Generate HTML for pin in grid
 function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGrid) {
-    let divClass, delBtn;
+    let divClass, delBtn, onClick;
     //If loggedIn, set properties for user's newly created pin
     if (loggedIn) {
         divClass = 'grid-item yours';
         delBtn = generateDelBtn(url, caption, ownerId);
+        onClick = '';
     }
     //If not loggedIn, set default properties
     else {
         divClass = 'grid-item';
         delBtn = '';
+        onClick = `errorMsg('Please log in to like ${caption}')`;
     }
     //Outputted HTML code
     let pinHtml = `<div class="${divClass}" data-owner="${ownerId}" data-url="${url}">
@@ -26,7 +28,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
                             ${delBtn}
                             <span class="right">
                                 <a class="dynLink tooltipped" data-link="like" data-owner="${ownerId}" data-url="${url}" 
-                                data-tooltip="Like this pin">
+                                data-tooltip="Like this pin" onclick="${onClick}">
                                 <i class="fa fa-heart-o"></i>&nbsp;</a>
                                 <span class="likes">${likes}</span>
                             </span>
@@ -37,10 +39,10 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
         $('.pins').isotope('insert', $(pinHtml));
         $('.tooltipped').tooltip();
         //Set click-handlers
-        $(`.grid-item[data-owner="${ownerId}"][data-url="${url}"] img`).click(function() {
+        $(`img[data-owner="${ownerId}"][data-url="${url}"]`).click(function() {
             bigImg($(this));
         });
-        $(`.grid-item[data-owner="${ownerId}"][data-url="${url}"] a`).click(function() {
+        $(`a[data-owner="${ownerId}"][data-url="${url}"]`).click(function() {
             likePin(this);
         });
     }

@@ -7,28 +7,31 @@ var lastUrl = void 0;
 //Generate HTML for pin in grid
 function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGrid) {
     var divClass = void 0,
-        delBtn = void 0;
+        delBtn = void 0,
+        onClick = void 0;
     //If loggedIn, set properties for user's newly created pin
     if (loggedIn) {
         divClass = 'grid-item yours';
         delBtn = generateDelBtn(url, caption, ownerId);
+        onClick = '';
     }
     //If not loggedIn, set default properties
     else {
             divClass = 'grid-item';
             delBtn = '';
+            onClick = 'errorMsg(\'Please log in to like ' + caption + '\')';
         }
     //Outputted HTML code
-    var pinHtml = '<div class="' + divClass + '" data-owner="' + ownerId + '" data-url="' + url + '">\n                    <img src="' + url + '" alt="' + caption + '" data-owner-name="' + ownerName + '"\n                    onerror="this.onerror=null;this.src=\'../public/img/badImg.jpg\';">\n                    <h6 class="center">' + caption + '</h6>\n                        <h6>\n                            ' + delBtn + '\n                            <span class="right">\n                                <a class="dynLink tooltipped" data-link="like" data-owner="' + ownerId + '" data-url="' + url + '" \n                                data-tooltip="Like this pin">\n                                <i class="fa fa-heart-o"></i>&nbsp;</a>\n                                <span class="likes">' + likes + '</span>\n                            </span>\n                        </h6>\n                    </div>';
+    var pinHtml = '<div class="' + divClass + '" data-owner="' + ownerId + '" data-url="' + url + '">\n                    <img src="' + url + '" alt="' + caption + '" data-owner-name="' + ownerName + '"\n                    onerror="this.onerror=null;this.src=\'../public/img/badImg.jpg\';">\n                    <h6 class="center">' + caption + '</h6>\n                        <h6>\n                            ' + delBtn + '\n                            <span class="right">\n                                <a class="dynLink tooltipped" data-link="like" data-owner="' + ownerId + '" data-url="' + url + '" \n                                data-tooltip="Like this pin" onclick="' + onClick + '">\n                                <i class="fa fa-heart-o"></i>&nbsp;</a>\n                                <span class="likes">' + likes + '</span>\n                            </span>\n                        </h6>\n                    </div>';
     //If called from performSave function, update the grid
     if (updateGrid) {
         $('.pins').isotope('insert', $(pinHtml));
         $('.tooltipped').tooltip();
         //Set click-handlers
-        $('.grid-item[data-owner="' + ownerId + '"][data-url="' + url + '"] img').click(function () {
+        $('img[data-owner="' + ownerId + '"][data-url="' + url + '"]').click(function () {
             bigImg($(this));
         });
-        $('.grid-item[data-owner="' + ownerId + '"][data-url="' + url + '"] a').click(function () {
+        $('a[data-owner="' + ownerId + '"][data-url="' + url + '"]').click(function () {
             likePin(this);
         });
     }
