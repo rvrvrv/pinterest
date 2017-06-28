@@ -6,8 +6,8 @@ $(document).ready(() => {
     //Automatically load and display all pins
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', showAllPins));
 
-    //When navbar title is clicked, scroll to top of page
-    $('.brand-logo').click(() => scroll(0, 0));
+    //When navbar title is clicked, shuffle the grid
+    $('.brand-logo').click(() => $('.pins').isotope('shuffle'));
 });
 
 //Display pin in big-image modal
