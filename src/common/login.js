@@ -55,15 +55,12 @@ function loggedIn(user) {
             </div>
         </div>`);
     $('#filters').addClass('fadeIn').removeClass('hidden');
-        
+
     //Activate pin-filter menu buttons
     $('.filter-btn').click(function() {
-    $('.filter-btn.active').removeClass('active');
-    $(this).addClass('active');
-        let filterVal = $(this).data('filter');
-        $('.pins').isotope({
-            filter: filterVal
-        });
+        $('.filter-btn.active').removeClass('active');
+        $(this).addClass('active');
+        filterPins($(this).data('filter'));
     });
 
     //Generate 'New Pin' modals
@@ -114,7 +111,7 @@ function loggedIn(user) {
             </div>
         </div>`);
     $('#newPinUrl').focusout(() => updateImg());
-    
+
     //Generate 'Delete Pin' confirmation modal
     $('.modals').append(`
         <div id="modalConfirmDelete" class="modal modal-confirm">
@@ -130,7 +127,7 @@ function loggedIn(user) {
                 </div>
             </div>
         </div>`);
-    
+
     //Initialize new modals
     $('.modal').modal();
 
@@ -166,7 +163,7 @@ function loggedIn(user) {
             if (link === 'like') $(this).click(() => likePin(this));
         }
     });
-    
+
     //Activate logout link
     $('#logoutBtn').click(() => {
         localStorage.removeItem('rv-pinterest-id');

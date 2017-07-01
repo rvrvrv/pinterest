@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, checkLoginStatus, generatePin, Materialize */
+/* global $, ajaxFunctions, checkLoginStatus, filterPins, generatePin, Materialize */
 'use strict';
 
 $(document).ready(() => {
@@ -69,6 +69,11 @@ function showAllPins(data) {
             //Click-handler to open pins
             $('.grid-item img').click(function() {
                 bigImg($(this));
+            });
+            //Click-handler to filter pins by owner
+            $('.grid-item .left a').click(function() {
+                let owner = $(this).data('owner');
+                filterPins(`[data-owner="${owner}"]`);
             });
             //Wait for all images to load before hiding progress bar
             $grid.imagesLoaded(() => progress('hide'));

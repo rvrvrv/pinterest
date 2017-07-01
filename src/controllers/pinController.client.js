@@ -4,19 +4,31 @@
 
 let lastUrl;
 
+//Helper function to filter pins
+function filterPins(val) {
+    $('.pins').isotope({
+        filter: val
+    });
+}
+
 //Generate HTML for pin in grid
 function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGrid) {
-    let divClass, delBtn, onClick;
+    let divClass, bottomLeft, onClick;
     //If loggedIn, set properties for user's newly created pin
     if (loggedIn) {
         divClass = 'grid-item yours';
-        delBtn = generateDelBtn(url, caption, ownerId);
+        bottomLeft = generateDelBtn(url, caption, ownerId);
         onClick = '';
     }
     //If not loggedIn, set default properties
     else {
         divClass = 'grid-item';
-        delBtn = '';
+        bottomLeft = `<span class="left">
+                        <a class="tooltipped" data-caption="${caption}" 
+                        data-owner="${ownerId}" data-url="${url}" 
+                        data-tooltip="View all pins by ${ownerName}">
+                        ${ownerName}</a>
+                    </span>`;
         onClick = `errorMsg('Please log in to like ${caption}')`;
     }
     //Outputted HTML code
@@ -25,7 +37,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
                     onerror="this.onerror=null;this.src='../public/img/badImg.jpg';">
                     <h6 class="center">${caption}</h6>
                         <h6>
-                            ${delBtn}
+                            ${bottomLeft}
                             <span class="right">
                                 <a class="dynLink tooltipped" data-link="like" data-owner="${ownerId}" data-url="${url}" 
                                 data-tooltip="Like this pin" onclick="${onClick}">
