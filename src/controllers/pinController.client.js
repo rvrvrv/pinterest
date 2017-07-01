@@ -64,12 +64,10 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
 
 //Generate HTML for delete-pin buttons in grid
 function generateDelBtn(url, caption, ownerId) {
-    return `<span class="left">
-                <a class="tooltipped" data-caption="${caption}" 
+    return `<a class="tooltipped" data-caption="${caption}" 
                 data-owner="${ownerId}" data-url="${url}" 
                 onclick="deletePin(this)" data-tooltip="Delete this pin">
-                <i class="fa fa-minus-square-o"></i></a>
-            </span>`;
+                <i class="fa fa-minus-square-o"></i></a>`;
 }
 
 //Update UI when image cannot be found

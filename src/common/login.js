@@ -140,11 +140,12 @@ function loggedIn(user) {
 
     //Update user's pins (for filter and delete buttons)
     user.pins.forEach(e => {
-        let userPin = $(`a[data-owner="${user.id}"][data-url="${e}"]`);
+        let userPin = $(`.grid-item[data-owner="${user.id}"][data-url="${e}"]`);
         //Add class for filtering
-        userPin.parents('.grid-item').addClass('yours');
+        userPin.addClass('yours');
         //Add delete button
-        userPin.parents('.right').before(generateDelBtn(e, userPin.parents('h6').prev().html(), user.id));
+        userPin.find('.left').empty().unbind();
+        userPin.find('.left').html(generateDelBtn(e, userPin.find('.center').html(), user.id));
         $('.tooltipped').tooltip();
     });
 
