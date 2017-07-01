@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, generateDelBtn, likeBtnSwitch, likePin, localStorage, location, updateImg */
+/* global $, ajaxFunctions, filterPins, generateDelBtn, likeBtnSwitch, likePin, localStorage, location, updateImg */
 'use strict';
 
 //Check for login status

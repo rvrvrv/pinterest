@@ -6,8 +6,11 @@ $(document).ready(() => {
     //Automatically load and display all pins
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', showAllPins));
 
-    //When navbar title is clicked, shuffle the grid
-    $('.brand-logo').click(() => $('.pins').isotope('shuffle'));
+    //When navbar title is clicked, shuffle and show all pins
+    $('.brand-logo').click(() => {
+        filterPins('*');
+        $('.pins').isotope('shuffle');
+    });
 });
 
 //Display pin in big-image modal
