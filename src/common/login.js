@@ -133,7 +133,7 @@ function loggedIn(user) {
 
     //Update and activate like buttons
     user.likes.forEach(e => {
-        let likedPin = $(`a[data-owner="${e.ownerId}"][data-url="${e.url}"]`);
+        let likedPin = $(`.right a[data-owner="${e.ownerId}"][data-url="${e.url}"]`);
         //If user likes the pin, update the UI
         if (likedPin) likeBtnSwitch(likedPin, true);
     });
