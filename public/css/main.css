@@ -95,6 +95,18 @@ nav {
 }
 
 
+/* Filter buttons */
+
+.filter-btn {
+    transition: all .1s ease-in !important;
+}
+
+.filter-btn.active {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+}
+
+
 /* Isotope grid */
 
 .pins {
