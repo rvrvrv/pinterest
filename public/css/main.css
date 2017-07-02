@@ -87,7 +87,7 @@ nav {
 
 #navName {
     font-size: 1.5em;
-    margin: 0 -15px 0 10px;
+    margin: 0 10px;
 }
 
 #userDropdown a {
@@ -331,6 +331,6 @@ nav {
 @media only screen and (max-width: 600px) {
     /* Navbar */
     #navImg {
-        margin: -2px -16px;
+        margin: -2px 0px;
     }
 }
