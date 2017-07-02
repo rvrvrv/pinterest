@@ -23,7 +23,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
     //If not loggedIn, set default properties
     else {
         divClass = 'grid-item';
-        bottomLeft = `<span class="left">
+        bottomLeft = `<span class="left owner-filter">
                         <a class="tooltipped" data-caption="${caption}" 
                         data-owner="${ownerId}" data-url="${url}" 
                         data-tooltip="View all pins by ${ownerName}">

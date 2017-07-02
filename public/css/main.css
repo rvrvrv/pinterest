@@ -152,6 +152,10 @@ nav {
     padding: 5px 8px;
 }
 
+.grid-item .owner-filter {
+    font-size: 0.9em;
+}
+
 .grid-item .left i:hover {
     text-shadow: 0 0 10px #000;
     transform: rotateZ(180deg);
