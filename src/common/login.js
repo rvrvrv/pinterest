@@ -144,7 +144,7 @@ function loggedIn(user) {
         //Add class for filtering
         userPin.addClass('yours');
         //Add delete button
-        userPin.find('.left').empty().unbind();
+        userPin.find('.left').empty().removeClass('owner-filter').unbind();
         userPin.find('.left').html(generateDelBtn(e, userPin.find('.center').html(), user.id));
         $('.tooltipped').tooltip();
     });
