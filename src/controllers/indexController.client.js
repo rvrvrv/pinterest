@@ -64,8 +64,6 @@ function showAllPins(data) {
                 $('.determinate').css('width', `${loadedPercent}%`);
                 $grid.isotope('layout');
             });
-            //Check to see if user is logged in. If so, logged-in view is generated.
-            checkLoginStatus();
             //Initialize tooltips and modals
             $('.tooltipped').tooltip();
             $('#modal-bigImg').modal();
@@ -77,7 +75,11 @@ function showAllPins(data) {
             $('.grid-item .left a').click(function() {
                 let owner = $(this).data('owner');
                 filterPins(`[data-owner="${owner}"]`);
+                //If applicable, remove active class from currently selected filter
+                if ($('.filter-btn.active')) $('.filter-btn.active').removeClass('active');
             });
+            //Check to see if user is logged in. If so, logged-in view is generated.
+            checkLoginStatus();
             //Wait for all images to load before hiding progress bar
             $grid.imagesLoaded(() => progress('hide'));
         }
