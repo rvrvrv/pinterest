@@ -12,6 +12,7 @@ body {
     background: #fffafa;
     color: #003;
     overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 img {
