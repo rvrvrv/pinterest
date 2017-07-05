@@ -6,9 +6,9 @@ $(document).ready(() => {
     //Automatically load and display all pins
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allPins/', showAllPins));
 
-    //When navbar title is clicked, shuffle and show all pins
+    //When navbar title is clicked, show all pins and shuffle
     $('.brand-logo').click(() => {
-        filterPins('*');
+        $('.filter-btn[data-filter="*"]').click();
         $('.pins').isotope('shuffle');
     });
 });
@@ -74,7 +74,9 @@ function showAllPins(data) {
             //Click-handler to filter pins by owner
             $('.grid-item .left a').click(function() {
                 let owner = $(this).data('owner');
-                filterPins(`[data-owner="${owner}"]`);
+                $('.pins').isotope({
+                    filter: `[data-owner="${owner}"]`
+                });
                 //If applicable, remove active class from currently selected filter
                 if ($('.filter-btn.active')) $('.filter-btn.active').removeClass('active');
             });

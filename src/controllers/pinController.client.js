@@ -5,12 +5,14 @@
 let lastUrl;
 
 //Helper function to filter pins
-function filterPins(filter) {
-    return console.log(filter);
+function filterPins(btn) {
+    //If active filter is clicked, don't do anything
+    if ($(btn).hasClass('active')) return;
+    //Otherwise, filter pins and update filter buttons accordingly
     $('.filter-btn.active').removeClass('active');
-    $(this).addClass('active');
+    $(btn).addClass('active');
     $('.pins').isotope({
-        filter: val
+        filter: $(btn).data('filter')
     });
 }
 
