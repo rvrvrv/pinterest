@@ -5,7 +5,10 @@
 let lastUrl;
 
 //Helper function to filter pins
-function filterPins(val) {
+function filterPins(filter) {
+    return console.log(filter);
+    $('.filter-btn.active').removeClass('active');
+    $(this).addClass('active');
     $('.pins').isotope({
         filter: val
     });

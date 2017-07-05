@@ -58,9 +58,7 @@ function loggedIn(user) {
 
     //Activate pin-filter menu buttons
     $('.filter-btn').click(function() {
-        $('.filter-btn.active').removeClass('active');
-        $(this).addClass('active');
-        filterPins($(this).data('filter'));
+        filterPins($(this));
     });
 
     //Generate 'New Pin' modals
