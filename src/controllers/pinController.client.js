@@ -46,9 +46,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
     else {
         divClass = 'grid-item';
         bottomLeft = `<span class="left owner-filter">
-                        <a class="tooltipped" data-caption="${caption}" 
-                        data-owner="${ownerId}" data-url="${url}" 
-                        data-tooltip="View all pins by ${ownerName}">
+                        <a data-caption="${caption}" data-owner="${ownerId}" data-url="${url}">
                         ${ownerName}</a>
                     </span>`;
         onClick = `errorMsg('Please log in to like ${caption}')`;
