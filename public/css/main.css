@@ -192,20 +192,20 @@ nav {
 }
 
 .input-field input:not([tel]):focus+label {
-    color: #7c028c;
+    color: #7c028c !important;
 }
 
 .input-field input:not([tel]) {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee !important;
 }
 
 .input-field input:not([tel]):focus {
-    border-bottom: 1px solid #000;
-    box-shadow: 0 1px 0 0 #000;
+    border-bottom: 1px solid #000 !important;
+    box-shadow: 0 1px 0 0 #000 !important;
 }
 
 .input-field input.valid {
-    box-shadow: 0 1px #000;
+    box-shadow: 0 1px #000 !important;
 }
 
 .input-field label {
