@@ -15,9 +15,6 @@ function checkLoginStatus() {
 
 //Show logged-in view
 function loggedIn(user) {
-    //Store user info
-    localStorage.setItem('rv-pinterest-id', user.id);
-
     //Generate user info in navbar
     $('#userInfo').html(`
         <a class="dropdown-button" data-activates="userDropdown">
@@ -163,7 +160,6 @@ function loggedIn(user) {
 
     //Activate logout link
     $('#logoutBtn').click(() => {
-        localStorage.removeItem('rv-pinterest-id');
         location.replace('/logout');
     });
 
