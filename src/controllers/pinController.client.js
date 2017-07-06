@@ -39,7 +39,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
     //If user is logged in, set properties for their newly created pin
     if (loggedIn) {
         divClass = 'grid-item yours';
-        bottomLeft = generateDelBtn(url, caption, ownerId);
+        bottomLeft = generateDelBtn(url, caption, ownerId, true);
         onClick = '';
     }
     //If user isn't logged in, set default properties
@@ -83,11 +83,14 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
 }
 
 //Generate HTML for delete-pin buttons in grid
-function generateDelBtn(url, caption, ownerId) {
-    return `<a class="tooltipped" data-caption="${caption}" 
+function generateDelBtn(url, caption, ownerId, needsLeft) {
+    //Prepend and append span tags, if necessary
+    let beginning = needsLeft ? '<span class="left">' : '';
+    let end = needsLeft ? '</span>' : '';
+    return `${beginning}<a class="tooltipped" data-caption="${caption}" 
                 data-owner="${ownerId}" data-url="${url}" 
                 onclick="deletePin(this)" data-tooltip="Delete this pin">
-                <i class="fa fa-minus-square-o"></i></a>`;
+                <i class="fa fa-minus-square-o"></i></a>${end}`;
 }
 
 //Update UI when image cannot be found
@@ -120,12 +123,13 @@ function updateImg() {
 
 //Initial pin-creation submission
 function savePin() {
+    updateImg();
     let caption = $('#newPinCaption').val();
     //Check for blank/invalid fields
     if (!caption || $('#newPinCaption').hasClass('invalid')) return errorMsg('Please enter a valid caption for your pin.');
     if (!lastUrl) return errorMsg('Please enter a valid image URL.');
 
-    /*If fields appear to be valid, wait for 2 seconds, and then ask for confirmation 
+    /*If fields appear to be valid, wait for 2.5 seconds, and then ask for confirmation 
     before submission. This allows for additional URL validation.*/
     let $btn = $('#saveBtn');
     $btn.html('<i class="fa fa-circle-o-notch fa-spin fa-3x"></i>');
@@ -135,7 +139,7 @@ function savePin() {
         if (lastUrl) $('#modalConfirmSave').modal('open');
         $btn.html('Save Pin');
         $btn.removeClass('disabled');
-    }, 2000);
+    }, 2500);
 }
 
 //After confirmation, save pin to the DB
