@@ -98,12 +98,20 @@ nav {
 
 /* Feature discovery */
 
-#discovery .fa{
+#discovery .fa {
     line-height: 1.8em;
 }
 
 .tap-target {
     padding-right: 50%;
+}
+
+
+/* Progress bar */
+
+.progress {
+    margin-top: 0;
+    height: .6em;
 }
 
 
