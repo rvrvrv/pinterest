@@ -125,7 +125,7 @@ function savePin() {
     if (!caption || $('#newPinCaption').hasClass('invalid')) return errorMsg('Please enter a valid caption for your pin.');
     if (!lastUrl) return errorMsg('Please enter a valid image URL.');
 
-    /*If fields appear to be valid, wait for 0.5 seconds, and then ask for confirmation 
+    /*If fields appear to be valid, wait for 2 seconds, and then ask for confirmation 
     before submission. This allows for additional URL validation.*/
     let $btn = $('#saveBtn');
     $btn.html('<i class="fa fa-circle-o-notch fa-spin fa-3x"></i>');
@@ -135,7 +135,7 @@ function savePin() {
         if (lastUrl) $('#modalConfirmSave').modal('open');
         $btn.html('Save Pin');
         $btn.removeClass('disabled');
-    }, 500);
+    }, 2000);
 }
 
 //After confirmation, save pin to the DB
