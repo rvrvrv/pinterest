@@ -54,6 +54,10 @@ h5 {
     margin-top: 25%;
 }
 
+.material-tooltip {
+    white-space: pre !important;
+}
+
 .error {
     background: #c62828;
 }

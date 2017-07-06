@@ -29,10 +29,9 @@ function filterPinsByLink(val) {
     //If unauthenticated user filters one person's pins, show them how to view all pins
     if (!$('#filters').length && val !== '*') {
         setTimeout(() => Materialize.toast(`To view all pins, 
-        click 'Almost Pinterest' at the top of this page.`, 4000), 2000);
+        click 'Almost Pinterest'<br>at the top of this page.`, 4000), 2000);
     }
 }
-
 
 //Generate HTML for pin in grid
 function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGrid) {
@@ -107,17 +106,13 @@ function badImg(url) {
 //Validate URL field and update image
 function updateImg() {
     let $url = $('#newPinUrl');
-
     //If URL field is empty, don't do anything
     if ($url.val() === '') return;
-
     //Otherwise, continue with validation
     let thisUrl = $url.val().trim();
-
     //Prepend URL with protocol, if necessary
     if (!thisUrl.toLowerCase().startsWith('http')) thisUrl = 'https://' + thisUrl;
     $url.val(thisUrl);
-
     //If URL is new and appears valid, update the image
     if (thisUrl !== lastUrl) {
         $('#newPinImg').attr('src', thisUrl);
