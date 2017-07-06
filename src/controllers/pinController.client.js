@@ -4,17 +4,34 @@
 
 let lastUrl;
 
-//Helper function to filter pins
-function filterPins(btn) {
+//Filter pins by button-click
+function filterPinsByBtn(btn) {
     //If active filter is clicked, don't do anything
     if ($(btn).hasClass('active')) return;
-    //Otherwise, filter pins and update filter buttons accordingly
+    //Otherwise, update filter buttons and filter the pins
     $('.filter-btn.active').removeClass('active');
     $(btn).addClass('active');
     $('.pins').isotope({
         filter: $(btn).data('filter')
     });
 }
+
+//Filter pins by link-click
+function filterPinsByLink(val) {
+    //If filter buttons are available, use/update them where applicable
+    if ($('#filters').length) {
+        if (val === '*') return $('#allPinsBtn').click();
+        $('.filter-btn.active').removeClass('active');
+    }
+    $('.pins').isotope({
+        filter: val
+    });
+    //If unauthenticated user filters one person's pins, show them how to view all pins
+    if (!$('#filters').length && val !== '*') {
+    setTimeout(() => Materialize.toast(`To view all pins, 
+        click 'Almost Pinterest' at the top of this page.`, 4000), 2000);}
+}
+
 
 //Generate HTML for pin in grid
 function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGrid) {

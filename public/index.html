@@ -13,6 +13,8 @@
   <script>
     if (window.location.protocol !== 'https:') location.href = location.href.replace('http', 'https');
   </script>
+
+  <!--Navbar-->
   <div class="navbar-fixed">
     <ul class="dropdown-content" id="userDropdown">
     </ul>
@@ -24,10 +26,12 @@
     </nav>
   </div>
 
+  <!--Progress bar-->
   <div class="progress pink accent-1">
     <div class="determinate bar pink darken-4"></div>
   </div>
-
+  
+  <!--Login button-->
   <div class="login-btn center animated hidden">
     <span class="tooltipped" data-delay="50" data-tooltip="Log in via Twitter for full access">
         <a class="btn waves-effect waves-blue" id="loginBtn" href="/auth/twitter">
@@ -35,10 +39,16 @@
         </a>
     </span>
   </div>
+  
+  <!--Loading message-->
   <div class="row center animated pulse" id="loading">
     <h2>Loading Pins...</h2>
   </div>
+  
+  <!--Isotope grid of pins-->
   <div class="pins"></div>
+  
+  <!--Modals-->
   <div class="modals">
     <div id="modal-bigImg" class="modal">
       <div class="modal-content">

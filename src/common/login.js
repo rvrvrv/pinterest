@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, filterPins, generateDelBtn, likeBtnSwitch, likePin, localStorage, location, updateImg */
+/* global $, ajaxFunctions, filterPinsByBtn, generateDelBtn, likeBtnSwitch, likePin, localStorage, location, updateImg */
 'use strict';
 
 //Check for login status
@@ -15,9 +15,8 @@ function checkLoginStatus() {
 
 //Show logged-in view
 function loggedIn(user) {
-    //Store user's info
+    //Store user info
     localStorage.setItem('rv-pinterest-id', user.id);
-    localStorage.setItem('rv-pinterest-name', user.name);
 
     //Generate user info in navbar
     $('#userInfo').html(`
@@ -43,22 +42,21 @@ function loggedIn(user) {
 
     //Generate and display pin-filter menu
     $('.progress').after(`
-        <div class="container animated hidden" id="filters">
+        <div class="container" id="filters">
             <div class="row">
                 <div class="col s12">
                     <ul class="tabs tabs-fixed-width">
-                        <li class="tab col s4"><a class="filter-btn active" data-filter="*">All Pins</a></li>
+                        <li class="tab col s4"><a class="filter-btn active" id="allPinsBtn" data-filter="*">All Pins</a></li>
                         <li class="tab col s4"><a class="filter-btn" data-filter=".yours">Yours</a></li>
                         <li class="tab col s4"><a class="filter-btn" data-filter=".liked">Liked</a></li>
                     </ul>
                 </div>
             </div>
         </div>`);
-    $('#filters').addClass('fadeIn').removeClass('hidden');
 
     //Activate pin-filter menu buttons
     $('.filter-btn').click(function() {
-        filterPins(this);
+        filterPinsByBtn(this);
     });
 
     //Generate 'New Pin' modals
@@ -166,7 +164,6 @@ function loggedIn(user) {
     //Activate logout link
     $('#logoutBtn').click(() => {
         localStorage.removeItem('rv-pinterest-id');
-        localStorage.removeItem('rv-pinterest-name');
         location.replace('/logout');
     });
 

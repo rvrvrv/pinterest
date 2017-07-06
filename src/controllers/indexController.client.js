@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, checkLoginStatus, filterPins, generatePin, Materialize */
+/* global $, ajaxFunctions, checkLoginStatus, filterPinsByBtn, filterPinsByLink, generatePin, Materialize */
 'use strict';
 
 $(document).ready(() => {
@@ -8,9 +8,15 @@ $(document).ready(() => {
 
     //When navbar title is clicked, show all pins and shuffle
     $('.brand-logo').click(() => {
-        $('.filter-btn[data-filter="*"]').click();
+        filterPinsByLink('*');
         $('.pins').isotope('shuffle');
     });
+
+    //Activate pin-filter menu buttons
+    $('.filter-btn').click(function() {
+        filterPinsByBtn(this);
+    });
+
 });
 
 //Display pin in big-image modal
@@ -73,12 +79,7 @@ function showAllPins(data) {
             });
             //Click-handler to filter pins by owner
             $('.grid-item .left a').click(function() {
-                let owner = $(this).data('owner');
-                $('.pins').isotope({
-                    filter: `[data-owner="${owner}"]`
-                });
-                //If applicable, remove active class from currently selected filter
-                if ($('.filter-btn.active')) $('.filter-btn.active').removeClass('active');
+                filterPinsByLink(`[data-owner="${$(this).data('owner')}"]`);
             });
             //Check to see if user is logged in. If so, logged-in view is generated.
             checkLoginStatus();
