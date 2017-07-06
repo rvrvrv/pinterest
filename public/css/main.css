@@ -96,10 +96,21 @@ nav {
 }
 
 
+/* Feature discovery */
+
+#discovery .fa{
+    line-height: 1.8em;
+}
+
+.tap-target {
+    padding-right: 50%;
+}
+
+
 /* Filter buttons */
 
 .filter-btn {
-    transition: all .1s ease-in !important;
+    transition: all .1s ease-in !important
 }
 
 .filter-btn.active {
@@ -256,6 +267,7 @@ nav {
         opacity: 0;
     }
 }
+
 
 /* Adjustments for small screens */
 

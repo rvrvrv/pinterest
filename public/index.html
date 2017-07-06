@@ -20,17 +20,33 @@
     </ul>
     <nav>
       <div class="nav-wrapper pink darken-4">
+        <!--Feature discovery button-->
+        <ul class="left">
+          <a class="waves-effect waves-light btn btn-floating" id="discovery" 
+          onclick="$('.tap-target').tapTarget('open')"><i class="fa fa-info"></i></a>
+        </ul>
         <a class="brand-logo center">Almost Pinterest</a>
+        <!--User info and dropdown menu-->
         <ul class="right valign-wrapper" id="userInfo"></ul>
       </div>
     </nav>
   </div>
 
+  <!--Feature discovery content-->
+  <div class="tap-target" data-activates="discovery">
+    <div class="tap-target-content white-text">
+      <h4>Welcome!</h4>
+      <p>This is a Pinterest clone built for FreeCodeCamp. Without logging in, 
+      you can view other users' pins. Log in via Twitter to like pins and create your own.</p>
+      <h5>Enjoy!</h5>
+    </div>
+  </div>
+  
   <!--Progress bar-->
   <div class="progress pink accent-1">
     <div class="determinate bar pink darken-4"></div>
   </div>
-  
+
   <!--Login button-->
   <div class="login-btn center animated hidden">
     <span class="tooltipped" data-delay="50" data-tooltip="Log in via Twitter for full access">
@@ -39,15 +55,15 @@
         </a>
     </span>
   </div>
-  
+
   <!--Loading message-->
   <div class="row center animated pulse" id="loading">
     <h2>Loading Pins...</h2>
   </div>
-  
+
   <!--Isotope grid of pins-->
   <div class="pins"></div>
-  
+
   <!--Modals-->
   <div class="modals">
     <div id="modal-bigImg" class="modal">
@@ -62,6 +78,7 @@
       </div>
     </div>
   </div>
+
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
@@ -73,4 +90,5 @@
 <script src="controllers/indexController.client.js"></script>
 <script src="controllers/pinController.client.js"></script>
 <script src="controllers/likeController.client.js"></script>
+
 </html>
