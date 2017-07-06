@@ -324,6 +324,9 @@ nav {
     .grid-item .right {
         padding-right: 3px;
     }
+    .grid-item .owner-filter {
+        font-size: 0.68em;
+    }
 }
 
 
