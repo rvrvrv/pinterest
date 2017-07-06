@@ -28,21 +28,22 @@ function filterPinsByLink(val) {
     });
     //If unauthenticated user filters one person's pins, show them how to view all pins
     if (!$('#filters').length && val !== '*') {
-    setTimeout(() => Materialize.toast(`To view all pins, 
-        click 'Almost Pinterest' at the top of this page.`, 4000), 2000);}
+        setTimeout(() => Materialize.toast(`To view all pins, 
+        click 'Almost Pinterest' at the top of this page.`, 4000), 2000);
+    }
 }
 
 
 //Generate HTML for pin in grid
 function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGrid) {
     let divClass, bottomLeft, onClick;
-    //If loggedIn, set properties for user's newly created pin
+    //If user is logged in, set properties for their newly created pin
     if (loggedIn) {
         divClass = 'grid-item yours';
         bottomLeft = generateDelBtn(url, caption, ownerId);
         onClick = '';
     }
-    //If not loggedIn, set default properties
+    //If user isn't logged in, set default properties
     else {
         divClass = 'grid-item';
         bottomLeft = `<span class="left owner-filter">
