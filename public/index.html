@@ -2,10 +2,10 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Almost Pinterest</title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
   <link rel="stylesheet" type="text/css" href="/public/css/main.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -22,8 +22,7 @@
       <div class="nav-wrapper pink darken-4">
         <!--Feature discovery button-->
         <ul class="left">
-          <a class="waves-effect waves-light btn btn-floating" id="discovery" 
-          onclick="$('.tap-target').tapTarget('open')"><i class="fa fa-info"></i></a>
+          <a class="waves-effect waves-light btn btn-floating" id="discovery" onclick="$('.tap-target').tapTarget('open')"><i class="fa fa-info"></i></a>
         </ul>
         <a class="brand-logo center">Almost Pinterest</a>
         <!--User info and dropdown menu-->
@@ -36,12 +35,11 @@
   <div class="tap-target" data-activates="discovery">
     <div class="tap-target-content white-text">
       <h4>Welcome!</h4>
-      <p>This is a Pinterest clone built for FreeCodeCamp. Without logging in, 
-      you can view other users' pins. Log in via Twitter to like pins and create your own.</p>
+      <p>This is a Pinterest clone built for FreeCodeCamp. Without logging in, you can view other users' pins. Log in via Twitter to like pins and create your own.</p>
       <h5>Enjoy!</h5>
     </div>
   </div>
-  
+
   <!--Progress bar-->
   <div class="progress pink accent-1">
     <div class="determinate bar pink darken-4"></div>
@@ -78,7 +76,6 @@
       </div>
     </div>
   </div>
-
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
@@ -90,5 +87,4 @@
 <script src="controllers/indexController.client.js"></script>
 <script src="controllers/pinController.client.js"></script>
 <script src="controllers/likeController.client.js"></script>
-
 </html>
