@@ -1,10 +1,10 @@
 // Show logged-in view
 function loggedIn(user) {
   // Generate user info in navbar
-  $('#userInfo').html(`
+  $('.user-info').html(`
     <a class="dropdown-button" data-activates="userDropdown">
-      <li><img src="${user.img}" alt="${user.name}" id="navImg"></li>
-      <li class="hide-on-small-only" id="navName">${user.name.split(' ')[0]}</li>
+      <li><img src="${user.img}" alt="${user.name}"></li>
+      <li class="hide-on-small-only nav-name">${user.name.split(' ')[0]}</li>
     </a>`);
 
   // Generate dropdown menu
@@ -46,7 +46,7 @@ function loggedIn(user) {
   $('.modals').append(`
     <div id="modal-newPin" class="modal">
       <div class="modal-content">
-        <div class="row" id="newImgDiv">
+        <div class="row new-pin">
           <img class="z-depth-4" id="newPinImg" src="../public/img/galaxy.jpg" onerror="badImg(this.src)" />
         </div>
         <form class="col s12">

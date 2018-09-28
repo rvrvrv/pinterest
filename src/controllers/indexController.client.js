@@ -19,7 +19,7 @@ function bigImg(img) {
   $('#bigImg').attr('src', img.attr('src'));
   $('#bigImgCaption').html(img.attr('alt'));
   $('#bigImgOwner').html(`Pinned by ${img.attr('data-owner-name')}`);
-  $('#modal-bigImg').modal('open');
+  $('.modal-big-img').modal('open');
 }
 
 // Show an error message
@@ -66,7 +66,7 @@ function showAllPins(data) {
       });
       // Initialize tooltips and modals
       $('.tooltipped').tooltip();
-      $('#modal-bigImg').modal();
+      $('.modal-big-img').modal();
       // Click-handler to open pins
       $('.grid-item img').click(function () {
         bigImg($(this));
