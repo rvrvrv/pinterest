@@ -91,7 +91,7 @@ nav ul a.dropdown-button {
   margin: 0 10px;
 }
 
-.dropdown-content li>a.dynLink {
+.dropdown-content li>a {
   color: #880e4f;
 }
 
@@ -138,6 +138,11 @@ nav ul a.dropdown-button {
   background: #880e4f;
   border-radius: 5%;
   margin: 5px;
+  transition: filter .2s;
+}
+
+.grid-item:hover {
+  filter: brightness(105%);
 }
 
 .grid-item * {
