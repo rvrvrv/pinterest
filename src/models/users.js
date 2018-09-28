@@ -1,17 +1,15 @@
-'use strict';
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-var User = new Schema({
-    id: String,
-    name: String,
-    img: String,
-    pins: [ String ],
-    likes: [{
-        url: String,
-        ownerId: String
-    }]
+const User = new Schema({
+  id: String,
+  name: String,
+  img: String,
+  pins: [String],
+  likes: [{
+    url: String,
+    ownerId: String
+  }]
 });
 
 module.exports = mongoose.model('User', User);
