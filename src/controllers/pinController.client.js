@@ -63,7 +63,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
     $('.pins').isotope('insert', $(pinHtml));
     $('.tooltipped').tooltip();
     // Set click-handlers
-    $(`img[data-owner="${ownerId}"][data-url="${url}"]`).click(function () {
+    $(`img[data-owner-name="${ownerName}"][src="${url}"]`).click(function () {
       bigImg($(this));
     });
     $(`.right a[data-owner="${ownerId}"][data-url="${url}"]`).click(function () {
