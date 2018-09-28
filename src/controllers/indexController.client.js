@@ -23,7 +23,8 @@ function bigImg(img) {
 }
 
 // Show an error message
-function errorMsg(message = 'An error has occurred. Please try again later.') {
+function errorMsg(message = 'An error has occurred. Please try again later.', link) {
+  if (link) $(link).css('pointer-events', 'unset');
   Materialize.toast(message, 3000, 'error');
 }
 
