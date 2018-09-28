@@ -78,8 +78,11 @@ function showAllPins(data) {
       });
       // Check to see if user is logged in. If so, logged-in view is generated.
       checkLoginStatus();
-      // Wait for all images to load before hiding progress bar
-      $grid.imagesLoaded(() => progress('hide'));
+      // Wait for all images to load before hiding progress bar and loading GIFs
+      $grid.imagesLoaded(() => {
+        progress('hide');
+        $('.grid-item img').css('background-image', 'none');
+      });
     }
   });
 }
