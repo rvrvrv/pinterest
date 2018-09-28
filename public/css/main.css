@@ -69,16 +69,16 @@ nav {
   width: 100vw;
 }
 
+nav ul a.dropdown-button {
+  background-color: transparent;
+}
+
 .navbar-fixed {
   user-select: none;
 }
 
 .user-info {
   margin: 5px;
-}
-
-.user-info a {
-  background-color: transparent;
 }
 
 .user-info img {
@@ -91,7 +91,7 @@ nav {
   margin: 0 10px;
 }
 
-.dropdown-content a {
+.dropdown-content li>a.dynLink {
   color: #880e4f;
 }
 
