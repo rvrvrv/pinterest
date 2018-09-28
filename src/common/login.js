@@ -9,7 +9,7 @@ function loggedIn(user) {
 
   // Generate dropdown menu
   $('#userDropdown').html(`
-    <li><a class="waves-effect waves-light dynLink" data-link="#modal-newPin">Add a Pin</a></li>
+    <li><a class="waves-effect waves-light dyn-link" data-link="#modal-newPin">Add a Pin</a></li>
     <li><a class="waves-effect waves-red" id="logoutBtn">Log Out</a></li>`);
 
   // Initialize dropdown menu
@@ -129,7 +129,7 @@ function loggedIn(user) {
   });
 
   // Activate dynamic links for logged-in user
-  $('.dynLink').each(function () {
+  $('.dyn-link').each(function () {
     const link = $(this).data('link');
     // New-pin modal
     if (link.includes('modal')) { $(this).click(() => $(link).modal('open')); }

@@ -53,7 +53,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
       <h6>
         ${bottomLeft}
         <span class="right">
-          <a class="dynLink tooltipped" data-link="like" data-owner="${ownerId}" data-url="${url}" data-tooltip="Like this pin" onclick="${onClick}"><i class="fa fa-heart-o"></i>&nbsp;</a>
+          <a class="dyn-link tooltipped" data-link="like" data-owner="${ownerId}" data-url="${url}" data-tooltip="Like this pin" onclick="${onClick}"><i class="fa fa-heart-o"></i>&nbsp;</a>
           <span class="likes">${likes}</span>
         </span>
       </h6>
@@ -66,7 +66,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
     $(`img[data-owner="${ownerId}"][data-url="${url}"]`).click(function () {
       bigImg($(this));
     });
-    $(`a[data-owner="${ownerId}"][data-url="${url}"]`).click(function () {
+    $(`.right a[data-owner="${ownerId}"][data-url="${url}"]`).click(function () {
       likePin(this);
     });
   } else return pinHtml;
@@ -75,10 +75,7 @@ function generatePin(url, caption, ownerId, ownerName, likes, loggedIn, updateGr
 
 // Generate HTML for delete-pin buttons in grid
 function generateDelBtn(url, caption, ownerId, needsLeft) {
-  // Prepend and append span tags, if necessary
-  const beginning = needsLeft ? '<span class="left">' : '';
-  const end = needsLeft ? '</span>' : '';
-  return `${beginning}<a class="tooltipped" data-caption="${caption}" data-owner="${ownerId}" data-url="${url}" onclick="deletePin(this)" data-tooltip="Delete this pin"><i class="fa fa-minus-square-o"></i></a>${end}`;
+  return `${needsLeft ? '<span class="left">' : ''}<a class="tooltipped" data-caption="${caption}" data-owner="${ownerId}" data-url="${url}" onclick="deletePin(this)" data-tooltip="Delete this pin"><i class="fa fa-minus-square-o"></i></a>${needsLeft ? '</span>' : ''}`;
 }
 
 // Update UI when image cannot be found
@@ -152,7 +149,7 @@ function performSave() {
       $('#modalConfirmSave h5').html('Are you sure you would like to save this pin?');
     }, 1000);
     progress('hide', true);
-    // If an error occured, notify the user
+    // If an error occurred, notify the user
     if (result === 'error') return errorMsg();
     if (result === 'exists') return errorMsg('You\'ve already pinned this image!');
     // Otherwise, close the modal and update the UI
@@ -186,7 +183,7 @@ function deletePin(pin) {
 // After confirmation, delete the pin in the DB
 function performDelete(pinUrl) {
   ajaxFunctions.ajaxRequest('DELETE', `/api/pin/${encodeURIComponent(pinUrl)}`, (result) => {
-    // If an error occured, notify the user
+    // If an error occurred, notify the user
     if (result === 'error') return errorMsg();
     if (result === 'no') return errorMsg('That isn\'t your pin!');
     // Otherwise, close the modal and update the UI
