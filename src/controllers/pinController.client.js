@@ -95,7 +95,7 @@ function updateImg() {
   // If URL field is empty, don't do anything
   if ($url.val() === '') return;
   // Otherwise, continue with validation
-  let thisUrl = $url.val().trim();
+  let thisUrl = $url.val().trim().replace(/['"]/g, '');
   // Prepend URL with protocol, if necessary
   if (!thisUrl.toLowerCase().startsWith('http')) thisUrl = `https://${thisUrl}`;
   $url.val(thisUrl);

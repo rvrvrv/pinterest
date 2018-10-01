@@ -55,15 +55,13 @@ function loggedIn(user) {
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="newPinCaption" alt="Caption" placeholder="Radiant Galaxy" type="text" class="validate" pattern="[a-zA-Z0-9.,?!@#$%&*() ]{1,}$"
-                maxlength="50" data-length="50">
+              <input id="newPinCaption" alt="Caption" placeholder="Radiant Galaxy" type="text" class="validate" pattern="[a-zA-Z0-9.,?!@#$%&*() ]{1,}$" maxlength="50" data-length="50">
               <label class="active" for="newPinCaption" data-error="Please enter a valid caption.">Caption</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="newPinUrl" alt="Image URL" placeholder="https://goo.gl/Ls5l2M" type="url" class="validate"
-                maxlength="500" data-length="500">
+              <input id="newPinUrl" alt="Image URL" placeholder="https://goo.gl/Ls5l2M" type="url" class="validate" maxlength="200" data-length="200">
               <label class="active" for="newPinUrl" data-error="Please enter a valid image URL.">Image URL</label>
             </div>
           </div>
