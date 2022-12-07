@@ -1,7 +1,7 @@
 # pinterest
 Pinterest-esque Project for FreeCodeCamp
 
-**Live App**: https://rv-interested.herokuapp.com
+**Live App**: https://pinterest-rv.onrender.com
 
 ## User Stories
 
