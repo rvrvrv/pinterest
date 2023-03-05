@@ -24,7 +24,7 @@
     "serve-favicon": "^2.4.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.6.2",
+    "@babel/cli": "^7.21.0",
     "@babel/core": "^7.6.2",
     "babel-preset-minify": "^0.5.1"
   }
